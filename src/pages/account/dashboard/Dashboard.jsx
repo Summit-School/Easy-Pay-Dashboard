@@ -13,52 +13,56 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="dashboard-wrapper ">
-        <div className="dashboard-cards container">
-          <DashboardCards
-            icon={<FaUsers size={35} />}
-            title="NUMBER OF USER"
-            value={formatMoney(10265)}
-            bgColor="lightblue"
-          />
-          <DashboardCards
-            icon={<FaUsers size={35} />}
-            title="NUMBER OF TRANSACTIONS"
-            value={formatMoney(10265)}
-            bgColor="lightgreen"
-          />
-          <DashboardCards
-            icon={<FaUsers size={35} />}
-            title="PENDING TRANSACTIONS"
-            value={formatMoney(10265)}
-            bgColor="orange"
-          />
-          <DashboardCards
-            icon={<FaUsers size={35} />}
-            title="TOTAL INCOME"
-            value={formatMoney(10265)}
-            bgColor="blue"
-          />
-        </div>
-        <div className="conversion-rate container">
-          <div className="rate-wrapper">
-            <div className="display-rate">
-              Conversion rate: 1 Barhain = xxxxx FCFA
-            </div>
-            <div className="set-rate">
-              <input
-                type="number"
-                placeholder="Enter FCFA equivalent"
-                className="form-control"
-              />
-              <button className="form-control bg-secondary text-light">
-                Submit
-              </button>
+        <div className="dashboard-scroller">
+          <div className="dashboard-cards container">
+            <DashboardCards
+              icon={<FaUsers size={35} />}
+              title="NUMBER OF USER"
+              value={formatMoney(10265)}
+              bgColor="lightblue"
+            />
+            <DashboardCards
+              icon={<FaUsers size={35} />}
+              title="NUMBER OF TRANSACTIONS"
+              value={formatMoney(10265)}
+              bgColor="lightgreen"
+            />
+            <DashboardCards
+              icon={<FaUsers size={35} />}
+              title="PENDING TRANSACTIONS"
+              value={formatMoney(10265)}
+              bgColor="orange"
+            />
+            <DashboardCards
+              icon={<FaUsers size={35} />}
+              title="TOTAL INCOME"
+              value={formatMoney(10265)}
+              bgColor="blue"
+            />
+          </div>
+          <div className="conversion-rate container">
+            <div className="rate-wrapper">
+              <div className="display-rate">
+                Conversion rate: 1 Barhain = xxxxx FCFA
+              </div>
+              <div className="set-rate">
+                <input
+                  type="number"
+                  placeholder="Enter FCFA equivalent"
+                  className="form-control"
+                />
+                <button className="form-control bg-secondary text-light">
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="latest-transactions">
-          <div className="latest-txn-heading container">Lates Transactions</div>
-          <Transactions />
+          <div className="latest-transactions">
+            <div className="latest-txn-heading container">
+              Lates Transactions
+            </div>
+            <Transactions />
+          </div>
         </div>
       </div>
     </Layout>
