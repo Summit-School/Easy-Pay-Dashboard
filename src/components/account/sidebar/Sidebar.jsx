@@ -62,7 +62,7 @@ const Sidebar = () => {
               <span className="icon">
                 <MdSettingsSuggest size={35} />
               </span>
-              <Link to="/message">CUSTOM MESSAGE</Link>
+              <Link to="/popup_message">CUSTOM MESSAGE</Link>
             </li>
           </div>
         </div>

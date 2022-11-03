@@ -14,7 +14,7 @@ const Transactions = () => {
 
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
+      td = tr[i].getElementsByTagName("td")[1];
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -41,6 +41,7 @@ const Transactions = () => {
         <table id="myTable">
           <thead>
             <tr>
+              <th>SN</th>
               <th>Name</th>
               <th>Amount</th>
               <th>Status</th>
@@ -50,6 +51,7 @@ const Transactions = () => {
           <tbody>
             {transactions.map((txn, index) => (
               <tr key={index}>
+                <td className="txn-name">{index + 1}</td>
                 <td className="txn-name">txn name</td>
                 <td className="txn-amount">20,000</td>
                 <td className="status">

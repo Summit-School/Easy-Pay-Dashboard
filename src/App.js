@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/auth/login/Login";
 import Dashboard from "./pages/account/dashboard/Dashboard";
 import Transactions from "./pages/account/transactions/Transactions";
+import Users from "./pages/account/users/Users";
+import PopupMessage from "./pages/account/popupMessage/PopupMessage";
 
 // bringing in the toastify for it to work everywhere
 import { ToastContainer } from "react-toastify";
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/popup_message" element={<PopupMessage />} />
         </Routes>
       </Router>
       {/* USING THE TOASTIFY CONTAINER */}
