@@ -1,0 +1,19 @@
+.card {
+    width: 24%;
+    margin: 5px;
+    min-height: 120px;
+}
+
+.card-icon {
+    margin-top: 10px;
+}
+
+.card-title-header {
+    margin-top: 10px;
+}
+
+.card-value {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
