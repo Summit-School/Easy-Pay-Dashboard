@@ -1,0 +1,26 @@
+.login-form-wrapper {
+    width: 350px;
+    margin: 100px auto;
+    border: 1px solid gray;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.logo {
+    width: 50%;
+    margin: auto;
+    /* background-color: red; */
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+}
+
+.login-form-wrapper h3 {
+    font-size: 18px;
+}
+
+form {
+    margin-top: 40px;
+}
