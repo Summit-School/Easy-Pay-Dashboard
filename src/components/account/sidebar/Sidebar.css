@@ -1,0 +1,61 @@
+.logo {
+    width: 50px;
+}
+
+.offcanvas {
+    background-color: white;
+}
+
+.sidebar-btn {
+    color: rgb(79, 124, 192);
+    border: 1px solid rgb(79, 124, 192);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.sidebar-btn:hover {
+    color: white;
+    background-color: rgb(79, 124, 192);
+}
+
+.sidebar-body {
+    width: 100%;
+    background-color: white;
+}
+
+.offcanvas-title div {
+    color: black;
+    display: flex;
+    font-weight: bold;
+}
+
+.offcanvas-title h5 {
+    margin: 10px 0 0 20px;
+}
+
+.sidebar-body li {
+    width: 100%;
+    text-align: left;
+    list-style: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.sidebar-body li:hover {
+    background-color: whitesmoke;
+    border-left: 4px solid rgb(79, 124, 192);
+}
+
+.icon {
+    color: rgb(79, 124, 192);
+    float: left;
+    margin: 20px 5px 0 0;
+}
+
+.sidebar-body li a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 20px 0;
+}

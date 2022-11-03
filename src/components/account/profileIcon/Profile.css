@@ -1,0 +1,40 @@
+.user-profile-icon {
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.thumbnail-image {
+    width: 40px;
+}
+
+.pull-left {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.pull-left span {
+    margin-top: 8px;
+}
+
+.menu-item {
+    background-color: white;
+    color: black;
+}
+
+.menu-item a {
+    display: flex;
+    color: black;
+}
+
+.menu-item .signout-link {
+    color: red;
+}
+
+.menu-item:hover {
+    background-color: whitesmoke;
+}
