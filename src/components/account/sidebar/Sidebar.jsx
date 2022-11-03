@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { MdDashboard, MdSettingsSuggest } from "react-icons/md";
-import { DiAppstore } from "react-icons/di";
+import { FaUsers } from "react-icons/fa";
 import { BiMoney } from "react-icons/bi";
 import "./Sidebar.css";
 
@@ -48,7 +48,7 @@ const Sidebar = () => {
             </li>
             <li>
               <span className="icon">
-                <DiAppstore size={35} />
+                <FaUsers size={35} />
               </span>
               <Link to="/users">USERS</Link>
             </li>

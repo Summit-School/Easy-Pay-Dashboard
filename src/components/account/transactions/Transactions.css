@@ -1,0 +1,27 @@
+.transactions-wrapper {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: rgba(40, 22, 203, 0.24) 0px 3px 8px;
+}
+
+.txn-list {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.txn {
+    display: flex;
+    justify-content: space-between;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+.status span {
+    color: black;
+    font-size: 15px;
+    padding: 5px;
+    border-radius: 5px;
+}

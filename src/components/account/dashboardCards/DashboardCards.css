@@ -1,5 +1,5 @@
 .card {
-    width: 24%;
+    width: 23.9%;
     margin: 5px;
     min-height: 120px;
 }
@@ -16,4 +16,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .card {
+        width: 96%;
+    }
 }
