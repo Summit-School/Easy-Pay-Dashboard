@@ -53,3 +53,11 @@ input:focus {
     background-color: white;
 
 }
+
+.fp-link {
+    margin-top: 30px;
+}
+
+.fp-link:hover {
+    cursor: pointer;
+}

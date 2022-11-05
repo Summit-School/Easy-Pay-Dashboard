@@ -27,7 +27,7 @@ const UpdatePassword = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="change-password-body">
-        <form>
+        <form className="mt-0">
           <div className="pass-field">
             <input
               type="password"

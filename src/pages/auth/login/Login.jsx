@@ -1,6 +1,10 @@
 import "./Login.css";
+import { useState } from "react";
+import ForgotPassword from "../../../components/auth/ForgotPassword";
 
 const Login = () => {
+  const [forgotPassword, setForgotPassword] = useState(false);
+
   return (
     <div className="login-wrapper">
       <div className="login-form-wrapper">
@@ -29,7 +33,17 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <p
+          className="fp-link text-primary"
+          onClick={() => setForgotPassword(true)}
+        >
+          Forgot Password?
+        </p>
       </div>
+      <ForgotPassword
+        show={forgotPassword}
+        onHide={() => setForgotPassword(false)}
+      />
     </div>
   );
 };
