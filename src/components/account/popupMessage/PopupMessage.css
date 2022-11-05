@@ -1,5 +1,5 @@
 .popup-message-wrapper {
-    height: 82vh;
+    height: 88vh;
 }
 
 .popup-scroll-div {
@@ -9,7 +9,7 @@
 }
 
 .featured-message, .add-message {
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: #fff;
     padding: 10px;
     border-radius: 5px;

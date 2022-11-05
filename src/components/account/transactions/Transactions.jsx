@@ -46,6 +46,7 @@ const Transactions = () => {
               <th>Amount</th>
               <th>Status</th>
               <th>Time</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +61,9 @@ const Transactions = () => {
                   </span>
                 </td>
                 <td className="timestamp">Timestamp</td>
+                <td className="action">
+                  <button disabled>Done</button>
+                </td>
               </tr>
             ))}
           </tbody>

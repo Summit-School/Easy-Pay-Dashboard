@@ -4,18 +4,17 @@
     min-height: 120px;
 }
 
-.card-icon {
+.card-icon, .card-title-header {
     margin-top: 10px;
-}
-
-.card-title-header {
-    margin-top: 10px;
+    color: white;
+    font-weight: bold;
 }
 
 .card-value {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: bold;
+    color: white;
 }
 
 @media only screen and (max-width: 600px) {

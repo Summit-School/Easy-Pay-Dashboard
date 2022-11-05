@@ -19,13 +19,13 @@ const Dashboard = () => {
               icon={<FaUsers size={35} />}
               title="NUMBER OF USER"
               value={formatMoney(10265)}
-              bgColor="lightblue"
+              bgColor="purple"
             />
             <DashboardCards
               icon={<FaUsers size={35} />}
               title="NUMBER OF TRANSACTIONS"
               value={formatMoney(10265)}
-              bgColor="lightgreen"
+              bgColor="green"
             />
             <DashboardCards
               icon={<FaUsers size={35} />}
@@ -37,7 +37,7 @@ const Dashboard = () => {
               icon={<FaUsers size={35} />}
               title="TOTAL INCOME"
               value={formatMoney(10265)}
-              bgColor="blue"
+              bgColor="gray"
             />
           </div>
           <div className="conversion-rate container">

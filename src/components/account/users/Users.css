@@ -1,0 +1,8 @@
+.msg-btn button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 13px;
+    background-color: green;
+    color: white;
+}

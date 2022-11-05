@@ -47,6 +47,7 @@ const Users = () => {
               <th>Phone</th>
               <th>Number of Trxns</th>
               <th>Time</th>
+              <th>Message</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +59,9 @@ const Users = () => {
                 <td className="phone">2134821474</td>
                 <td className="phone">30</td>
                 <td className="timestamp">2134821474</td>
+                <td className="msg-btn">
+                  <button>message</button>
+                </td>
               </tr>
             ))}
           </tbody>
