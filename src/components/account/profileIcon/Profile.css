@@ -19,6 +19,7 @@
 
 .pull-left span {
     margin-top: 8px;
+    font-weight: bold
 }
 
 .menu-item {
@@ -29,6 +30,7 @@
 .menu-item a {
     display: flex;
     color: black;
+    text-decoration: none;
 }
 
 .menu-item .signout-link {

@@ -62,7 +62,7 @@ const Transactions = () => {
                 </td>
                 <td className="timestamp">Timestamp</td>
                 <td className="action">
-                  <button disabled>Done</button>
+                  <button>Done</button>
                 </td>
               </tr>
             ))}
