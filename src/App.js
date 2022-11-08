@@ -6,6 +6,7 @@ import Transactions from "./pages/account/transactions/Transactions";
 import Users from "./pages/account/users/Users";
 import PopupMessage from "./pages/account/popupMessage/PopupMessage";
 import PageError from "./pages/404/PageError";
+import Messanger from "./pages/messanger/Messanger";
 
 // bringing in the toastify for it to work everywhere
 import { ToastContainer } from "react-toastify";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/users" element={<Users />} />
           <Route path="/popup_message" element={<PopupMessage />} />
+          <Route path="/users/messanger" element={<Messanger />} />
 
           {/* 404 ROUTE */}
           <Route path="*" element={<PageError />} />

@@ -1,5 +1,6 @@
 import "./Users.css";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const [users] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -60,7 +61,9 @@ const Users = () => {
                 <td className="phone">30</td>
                 <td className="timestamp">2134821474</td>
                 <td className="msg-btn">
-                  <button>message</button>
+                  <Link to="./messanger">
+                    <button>message</button>
+                  </Link>
                 </td>
               </tr>
             ))}
