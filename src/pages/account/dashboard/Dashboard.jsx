@@ -2,6 +2,7 @@ import "./Dashboard.css";
 import Layout from "../../../components/layout/Layout";
 import { FaUsers } from "react-icons/fa";
 import { BiMoney } from "react-icons/bi";
+import { AiOutlineTransaction } from "react-icons/ai";
 import DashboardCards from "../../../components/account/dashboardCards/DashboardCards";
 import Transactions from "../../../components/account/transactions/Transactions";
 
@@ -23,19 +24,19 @@ const Dashboard = () => {
               bgColor="purple"
             />
             <DashboardCards
-              icon={<BiMoney size={35} />}
+              icon={<AiOutlineTransaction size={35} />}
               title="NUMBER OF TRANSACTIONS"
               value={formatMoney(10265)}
               bgColor="green"
             />
             <DashboardCards
-              icon={<BiMoney size={35} />}
+              icon={<AiOutlineTransaction size={35} />}
               title="PENDING TRANSACTIONS"
               value={formatMoney(10265)}
               bgColor="orange"
             />
             <DashboardCards
-              icon={<FaUsers size={35} />}
+              icon={<BiMoney size={35} />}
               title="TOTAL INCOME"
               value={formatMoney(10265)}
               bgColor="gray"

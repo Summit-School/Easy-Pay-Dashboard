@@ -1,6 +1,7 @@
 import "./Login.css";
 import { useState } from "react";
 import ForgotPassword from "../../../components/auth/ForgotPassword";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -28,9 +29,11 @@ const Login = () => {
             />
           </div>
           <div className="submit-button">
-            <button className="form-control bg-primary text-light font-weight-bold mt-4">
-              Login
-            </button>
+            <Link to="/dashboard">
+              <button className="form-control bg-primary text-light font-weight-bold mt-4">
+                Login
+              </button>
+            </Link>
           </div>
         </form>
         <p
