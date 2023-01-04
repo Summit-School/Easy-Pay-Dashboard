@@ -43,6 +43,7 @@ const Transactions = () => {
             <tr>
               <th>SN</th>
               <th>Name</th>
+              <th>Number</th>
               <th>Amount</th>
               <th>Status</th>
               <th>Time</th>
@@ -54,6 +55,7 @@ const Transactions = () => {
               <tr key={index}>
                 <td className="txn-name">{index + 1}</td>
                 <td className="txn-name">txn name</td>
+                <td className="txn-name">+237 672 491 296</td>
                 <td className="txn-amount">20,000</td>
                 <td className="status">
                   <span style={{ backgroundColor: "lightgreen" }}>

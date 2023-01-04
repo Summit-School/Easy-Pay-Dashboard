@@ -61,7 +61,7 @@ const Dashboard = () => {
           </div>
           <div className="latest-transactions">
             <div className="latest-txn-heading container">
-              Lates Transactions
+              Latest Transactions
             </div>
             <Transactions />
           </div>
