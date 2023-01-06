@@ -25,17 +25,19 @@ const Login = () => {
         password: password,
       };
 
-      dispatch(login(loginDetails), setLoading(true)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          setLoading(false);
-          toast.success("Logged in successfully");
-          navigate("/dashboard");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          setLoading(false);
-          toast.error(res.payload);
-        }
-      });
+      dispatch(login(loginDetails), setLoading(true))
+        .then((res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            setLoading(false);
+            toast.success("Logged in successfully");
+            navigate("/dashboard");
+          }
+          if (res.meta.requestStatus === "rejected") {
+            setLoading(false);
+            toast.error(res.payload);
+          }
+        })
+        .catch((err) => {});
     } else {
       toast.error("Email or password is required");
       return;

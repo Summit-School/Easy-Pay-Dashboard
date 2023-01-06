@@ -5,9 +5,6 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
   user: user ? user : null,
-  userError: false,
-  userSuccess: false,
-  userLoading: false,
   userMessage: "",
 };
 
@@ -28,6 +25,26 @@ export const login = createAsyncThunk(
   }
 );
 
+export const updatePassword = createAsyncThunk(
+  "authentication/updatePassword",
+  async (data, thunkAPI) => {
+    try {
+      return await authServices.updatePassword(data);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const logout = createAsyncThunk("authentication/logout", async () => {
+  return await authServices.logout();
+});
+
 export const authSlice = createSlice({
   name: "authentication",
   initialState,
@@ -38,6 +55,20 @@ export const authSlice = createSlice({
       state.userLoading = false;
       state.userMessage = "";
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.userMessage = action.payload; // error message from thunkAPI above
+        state.user = null;
+      })
+
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+      });
   },
 });
 

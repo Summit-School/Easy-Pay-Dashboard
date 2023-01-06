@@ -4,14 +4,41 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { GoSignOut } from "react-icons/go";
 import UpdatePassword from "../updatePassword/UpdatePassword";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getAdminInfo } from "../../../pages/redux/reducers/profileReducers";
+import { logout } from "../../../pages/redux/reducers/authReducers";
+import userID from "../../../pages/shared/userID";
 
 const Profile = () => {
   const [changePassword, setChangePassword] = useState(false);
+
+  const data = useSelector((state) => state.profile.profile);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const adminID = userID();
+    dispatch(getAdminInfo(adminID))
+      .then((res) => {
+        if (res.meta.requestStatus === "rejected") {
+          toast.error(res.payload);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  }, []);
+
   const handleLogout = (e) => {
     e.preventDefault();
 
-    console.lgo("logout");
+    dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -19,7 +46,7 @@ const Profile = () => {
       <NavDropdown
         title={
           <div className="pull-left">
-            <span>test@gmail.com</span>
+            <span>{data.email}</span>
             <img
               className="thumbnail-image"
               src="/images/Easy_pay.png"
