@@ -1,9 +1,17 @@
 import "./Users.css";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getUsers } from "../../../pages/redux/reducers/appReducers";
 
 const Users = () => {
-  const [users] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const dispatch = useDispatch();
+
+  const [users] = useSelector((state) => state.app.users);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
 
   function myFunction(textInput) {
     // Declare variables
@@ -44,22 +52,20 @@ const Users = () => {
             <tr>
               <th>SN</th>
               <th>Name</th>
-              <th>Email</th>
+              {/* <th>Email</th> */}
               <th>Phone</th>
-              <th>Number of Trxns</th>
-              <th>Time</th>
+              <th>Transactions</th>
               <th>Message</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((txn, index) => (
+            {users?.map((user, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td className="user-name">txn name</td>
-                <td className="user-email">test@gmail.com</td>
-                <td className="phone">2134821474</td>
-                <td className="phone">30</td>
-                <td className="timestamp">2134821474</td>
+                <td className="user-name">{user.username}</td>
+                {/* <td className="user-email">test@gmail.com</td> */}
+                <td className="phone">{user.phoneNumber}</td>
+                <td className="phone">{user.numberOfTxn}</td>
                 <td className="msg-btn">
                   <Link to="./messanger">
                     <button>message</button>

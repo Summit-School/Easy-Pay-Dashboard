@@ -3,6 +3,8 @@ import appServices from "../services/appServices";
 
 const initialState = {
   conversionRate: 0,
+  users: [],
+  transactions: [],
 };
 
 export const setRate = createAsyncThunk(
@@ -37,6 +39,51 @@ export const getCxnRate = createAsyncThunk(
   }
 );
 
+export const getUsers = createAsyncThunk("app/getUsers", async (thunkAPI) => {
+  try {
+    return await appServices.getUsers();
+  } catch (error) {
+    const message =
+      (error.message && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const getTransactions = createAsyncThunk(
+  "app/getTransactions",
+  async (thunkAPI) => {
+    try {
+      return await appServices.getTransactions();
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const transactionStatus = createAsyncThunk(
+  "app/transactionStatus",
+  async (txnID, thunkAPI) => {
+    try {
+      return await appServices.transactionStatus(txnID);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const appSlice = createSlice({
   name: "app",
   initialState,
@@ -54,10 +101,27 @@ export const appSlice = createSlice({
 
       .addCase(getCxnRate.fulfilled, (state, action) => {
         state.conversionRate = action.payload.cfa;
-        console.log(action.payload.cfa);
       })
       .addCase(getCxnRate.rejected, (state, action) => {
         state.conversionRate = 0;
+      })
+
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.users.push(action.payload);
+      })
+      .addCase(getUsers.rejected, (state, action) => {
+        state.users = [];
+      })
+
+      .addCase(getTransactions.fulfilled, (state, action) => {
+        state.transactions.push(action.payload);
+      })
+      .addCase(getTransactions.rejected, (state, action) => {
+        state.transactions = [];
+      })
+
+      .addCase(transactionStatus.fulfilled, (state, action) => {
+        state.transactions = [action.payload];
       });
   },
 });

@@ -1,8 +1,40 @@
+/* eslint-disable react/jsx-no-target-blank */
 import "./Transactions.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Moment from "react-moment";
+// import { FaDownload } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getTransactions,
+  transactionStatus,
+} from "../../../pages/redux/reducers/appReducers";
+import { toast } from "react-toastify";
 
 const Transactions = () => {
-  const [transactions] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const [transactions] = useSelector((state) => state.app.transactions);
+
+  useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
+
+  const changeStatus = async (txnID) => {
+    setLoading(true);
+    const res = await dispatch(transactionStatus(txnID));
+    // const update = await dispatch(getTransactions());
+
+    if (res.meta.requestStatus === "fulfilled") {
+      setLoading(false);
+      toast.success("Transaction status updated");
+      toast.error(res.payload);
+    }
+    if (res.meta.requestStatus === "rejected") {
+      setLoading(false);
+      toast.error(res.payload);
+    }
+  };
 
   function myFunction(textInput) {
     // Declare variables
@@ -45,26 +77,52 @@ const Transactions = () => {
               <th>Name</th>
               <th>Number</th>
               <th>Amount</th>
+              <th>Screenshot</th>
               <th>Status</th>
               <th>Time</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {transactions.map((txn, index) => (
+            {transactions?.map((txn, index) => (
               <tr key={index}>
                 <td className="txn-name">{index + 1}</td>
-                <td className="txn-name">txn name</td>
-                <td className="txn-name">+237 672 491 296</td>
-                <td className="txn-amount">20,000</td>
-                <td className="status">
-                  <span style={{ backgroundColor: "lightgreen" }}>
-                    Completed
-                  </span>
+                <td className="txn-name">{txn.username}</td>
+                <td className="txn-name">{txn.phoneNumber}</td>
+                <td className="txn-amount">{txn.amount}</td>
+                <td className="txn-screenshot">
+                  <a
+                    href={`${process.env.REACT_APP_ENDPOINT}/${txn.screenshot}`}
+                    target="_blank"
+                  >
+                    View Screenshot
+                  </a>
+                  {/* <span>
+                    <FaDownload />
+                  </span> */}
                 </td>
-                <td className="timestamp">Timestamp</td>
+                <td className="status">
+                  {txn.status == true ? (
+                    <span
+                      style={{
+                        backgroundColor: "green",
+                        color: "white",
+                      }}
+                    >
+                      completed
+                    </span>
+                  ) : (
+                    <span style={{ backgroundColor: "yellow" }}>pending</span>
+                  )}
+                </td>
+                <td className="timestamp">
+                  <Moment format="HH:mm - DD:MM:YYYY ">{txn.createdAt}</Moment>
+                </td>
                 <td className="action">
-                  <button>Done</button>
+                  <button onClick={() => changeStatus(txn._id)}>
+                    {/* {loading ? "Loading..." : "Done"} */}
+                    Done
+                  </button>
                 </td>
               </tr>
             ))}

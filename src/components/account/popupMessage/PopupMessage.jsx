@@ -32,14 +32,14 @@ const PopupMessage = () => {
               className="form-control"
               cols="30"
               rows="5"
-              placeholder="Enter custome pop-up message"
+              placeholder="Enter custome message"
             ></textarea>
           </div>
           <button className="form-control bg-secondary text-light mt-2">
             Submit
           </button>
         </div>
-        <div className="add-message container mt-3 mb-2">
+        {/* <div className="add-message container mt-3 mb-2">
           <div className="popup-message-input">
             <textarea
               className="form-control"
@@ -51,7 +51,7 @@ const PopupMessage = () => {
           <button className="form-control bg-secondary text-light mt-2">
             Submit
           </button>
-        </div>
+        </div> */}
       </div>
       <UpdateMessage
         show={updateMessage}

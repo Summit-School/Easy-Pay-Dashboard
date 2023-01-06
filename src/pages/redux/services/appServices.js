@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const API_URL_RATE = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/conversionRate`;
+const API_URL_AUTH = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/auth`;
+const API_URL_TRANSACTIONS = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/transactions`;
 
 const setRate = async (cfa) => {
   const response = await axios.post(`${API_URL_RATE}/set_rate`, cfa, {
@@ -16,9 +18,39 @@ const getCxnRate = async () => {
   return response.data;
 };
 
+const getUsers = async () => {
+  const response = await axios.get(`${API_URL_AUTH}/get_all_users`);
+  return response.data;
+};
+
+const getTransactions = async () => {
+  const response = await axios.get(
+    `${API_URL_TRANSACTIONS}/get_all_transactions`
+  );
+  return response.data;
+};
+
+const transactionStatus = async (txnID) => {
+  const response = await axios.put(
+    `${API_URL_TRANSACTIONS}/update_txn_state/${txnID}`
+  );
+
+  if (response.data) {
+    const updated = await axios.get(
+      `${API_URL_TRANSACTIONS}/get_all_transactions`
+    );
+
+    return updated.data;
+  }
+  return response.data;
+};
+
 const appServices = {
   setRate,
   getCxnRate,
+  getUsers,
+  getTransactions,
+  transactionStatus,
 };
 
 export default appServices;

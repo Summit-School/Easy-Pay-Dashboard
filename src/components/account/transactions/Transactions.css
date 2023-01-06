@@ -29,6 +29,7 @@
     font-size: 15px;
     padding: 5px;
     border-radius: 5px;
+
 }
 
 .filter {
@@ -40,7 +41,7 @@
     border-radius: 5px;
     font-size: 13px;
     font-weight: bold;
-    background-color: rgb(79, 124, 192);
+    background-color: darkblue;
     color: white;
     padding: 5px 10px;
 }
