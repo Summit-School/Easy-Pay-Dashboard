@@ -37,7 +37,9 @@ const Login = () => {
             toast.error(res.payload);
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          console.error(err);
+        });
     } else {
       toast.error("Email or password is required");
       return;

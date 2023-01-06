@@ -5,6 +5,7 @@ const initialState = {
   conversionRate: 0,
   users: [],
   transactions: [],
+  popupMessage: {},
 };
 
 export const setRate = createAsyncThunk(
@@ -84,6 +85,54 @@ export const transactionStatus = createAsyncThunk(
   }
 );
 
+export const getPopupMessage = createAsyncThunk(
+  "app/getPopupMessage",
+  async (thunkAPI) => {
+    try {
+      return await appServices.getPopupMessage();
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const updatePopupMessage = createAsyncThunk(
+  "app/updatePopupMessage",
+  async (msgID, thunkAPI) => {
+    try {
+      return await appServices.updatePopupMessage(msgID);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const createPopupMessage = createAsyncThunk(
+  "app/createPopupMessage",
+  async (msg, thunkAPI) => {
+    try {
+      return await appServices.createPopupMessage(msg);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const appSlice = createSlice({
   name: "app",
   initialState,
@@ -122,6 +171,20 @@ export const appSlice = createSlice({
 
       .addCase(transactionStatus.fulfilled, (state, action) => {
         state.transactions = [action.payload];
+      })
+
+      .addCase(getPopupMessage.fulfilled, (state, action) => {
+        state.popupMessage = action.payload;
+      })
+      .addCase(getPopupMessage.rejected, (state, action) => {
+        state.popupMessage = "";
+      })
+
+      .addCase(updatePopupMessage.fulfilled, (state, action) => {
+        state.popupMessage = action.payload;
+      })
+      .addCase(updatePopupMessage.rejected, (state, action) => {
+        state.popupMessage = "";
       });
   },
 });

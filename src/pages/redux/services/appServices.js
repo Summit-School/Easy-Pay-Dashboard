@@ -3,6 +3,7 @@ import axios from "axios";
 const API_URL_RATE = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/conversionRate`;
 const API_URL_AUTH = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/auth`;
 const API_URL_TRANSACTIONS = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/transactions`;
+const API_URL_POPUPMESSAGE = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/popupMessage`;
 
 const setRate = async (cfa) => {
   const response = await axios.post(`${API_URL_RATE}/set_rate`, cfa, {
@@ -45,12 +46,44 @@ const transactionStatus = async (txnID) => {
   return response.data;
 };
 
+const getPopupMessage = async () => {
+  const response = await axios.get(`${API_URL_POPUPMESSAGE}/getPopupMessage`);
+
+  return response.data;
+};
+
+const updatePopupMessage = async (updateData) => {
+  const response = await axios.put(
+    `${API_URL_POPUPMESSAGE}/updatePopupMessage/${updateData.msgID}`,
+    updateData
+  );
+
+  if (response.data) {
+    const updated = await axios.get(`${API_URL_POPUPMESSAGE}/getPopupMessage`);
+    return updated.data;
+  }
+  return response.data;
+};
+
+const createPopupMessage = async (data) => {
+  console.log(data);
+  const response = await axios.post(
+    `${API_URL_POPUPMESSAGE}/createPopupMessage`,
+    data
+  );
+
+  return response.data;
+};
+
 const appServices = {
   setRate,
   getCxnRate,
   getUsers,
   getTransactions,
   transactionStatus,
+  getPopupMessage,
+  updatePopupMessage,
+  createPopupMessage,
 };
 
 export default appServices;

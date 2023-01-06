@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 
 const Transactions = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const [transactions] = useSelector((state) => state.app.transactions);
@@ -21,17 +21,14 @@ const Transactions = () => {
   }, []);
 
   const changeStatus = async (txnID) => {
-    setLoading(true);
     const res = await dispatch(transactionStatus(txnID));
     // const update = await dispatch(getTransactions());
 
     if (res.meta.requestStatus === "fulfilled") {
-      setLoading(false);
       toast.success("Transaction status updated");
       toast.error(res.payload);
     }
     if (res.meta.requestStatus === "rejected") {
-      setLoading(false);
       toast.error(res.payload);
     }
   };
