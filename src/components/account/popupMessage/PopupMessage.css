@@ -12,9 +12,45 @@
     margin-top: 10px;
     background-color: #fff;
     padding: 10px;
-    border-radius: 5px;
-    box-shadow: rgba(40, 22, 203, 0.24) 0px 3px 8px;
+    border-radius: 3px;
+    border: 1px solid grey;
+
 }
+
+.custom-msg {
+    text-align: left;
+    margin: 0;
+}
+
+.popup-msg-submit-btn, .update-popup-msg-submit-btn {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+    border-radius: 3px;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 15px;
+}
+
+.popup-msg-delete-btn {
+    float: right;
+    margin-top: 20px;
+    border-radius: 3px;
+    border: none;
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 15px;
+}
+
+.update-popup-msg-submit-btn:hover {
+    background-color: darkblue;
+}
+
 
 .edit-btn span {
     background-color: green;

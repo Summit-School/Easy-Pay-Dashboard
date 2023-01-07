@@ -32,26 +32,30 @@ const Dashboard = () => {
 
   const setConversionRate = (e) => {
     e.preventDefault();
-    const rate = {
-      cfa: cxnRate,
-    };
-    dispatch(setRate(rate), setLoading(true))
-      .then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          dispatch(getCxnRate());
+    if (cxnRate) {
+      const rate = {
+        cfa: cxnRate,
+      };
+      dispatch(setRate(rate), setLoading(true))
+        .then((res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            dispatch(getCxnRate());
+            setLoading(false);
+            setCxnRate("");
+            toast.success(res.payload.message);
+          }
+          if (res.meta.requestStatus === "rejected") {
+            setLoading(false);
+            toast.error(res.payload);
+          }
+        })
+        .catch((err) => {
           setLoading(false);
-          setCxnRate("");
-          toast.success(res.payload.message);
-        }
-        if (res.meta.requestStatus === "rejected") {
-          setLoading(false);
-          toast.error(res.payload);
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        toast.error(err.message);
-      });
+          toast.error(err.message);
+        });
+    } else {
+      toast.error("Invalid rate");
+    }
   };
 
   const formatMoney = (amount) => {
@@ -102,10 +106,7 @@ const Dashboard = () => {
                   value={cxnRate}
                   onChange={(e) => setCxnRate(e.target.value)}
                 />
-                <button
-                  className="form-control bg-secondary text-light"
-                  onClick={setConversionRate}
-                >
+                <button onClick={setConversionRate}>
                   {loading ? "Loading..." : " Submit"}
                 </button>
               </div>

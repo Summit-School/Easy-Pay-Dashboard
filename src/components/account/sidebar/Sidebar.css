@@ -4,23 +4,26 @@
 
 .offcanvas {
     background-color: white;
+    width: 250px !important;
 }
 
 .sidebar-btn {
-    color: rgb(79, 124, 192);
-    border: 1px solid rgb(79, 124, 192);
-    border-radius: 5px;
+    color: darkblue;
+    border: 1px solid darkblue;
+    border-radius: 3px;
     padding: 5px 10px;
 }
 
 .sidebar-btn:hover {
     color: white;
-    background-color: rgb(79, 124, 192);
+    background-color: darkblue;
 }
 
 .sidebar-body {
     width: 100%;
     background-color: white;
+    padding: 0;
+    margin: 0;
 }
 
 .offcanvas-title div {
@@ -30,32 +33,36 @@
 }
 
 .offcanvas-title h5 {
-    margin: 10px 0 0 20px;
+    margin: 10px 0 0 0px;
 }
 
 .sidebar-body li {
     width: 100%;
     text-align: left;
     list-style: none;
-    font-weight: bold;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border-radius: 3px;
+    padding: 5px 5px;
 }
 
 .sidebar-body li:hover {
-    background-color: whitesmoke;
-    border-left: 4px solid rgb(79, 124, 192);
+    background-color: grey;
+    color: white;
 }
 
 .icon {
-    color: rgb(79, 124, 192);
-    float: left;
-    margin: 20px 5px 0 0;
+    /* color: darkblue; */
+    margin: 18px 5px 0 0;
 }
 
 .sidebar-body li a {
-    display: block;
     text-decoration: none;
     color: black;
-    padding: 20px 0;
+    margin-left: 10px;
+    font-size: 17px;
+    padding: 5px 0;
+    padding-right: 30px;
+}
+
+.sidebar-body li a:hover {
+    color: white;
 }

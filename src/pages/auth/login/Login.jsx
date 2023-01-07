@@ -78,16 +78,13 @@ const Login = () => {
           </div>
           <div className="submit-button">
             <Link to="#" onClick={handleLogin}>
-              <button className="form-control bg-primary text-light font-weight-bold mt-4">
+              <button className="login-btn">
                 {loading ? "Loading..." : "Login"}
               </button>
             </Link>
           </div>
         </form>
-        <p
-          className="fp-link text-primary"
-          onClick={() => setForgotPassword(true)}
-        >
+        <p className="fp-link " onClick={() => setForgotPassword(true)}>
           Forgot Password?
         </p>
       </div>

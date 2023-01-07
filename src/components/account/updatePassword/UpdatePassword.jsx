@@ -1,6 +1,5 @@
 import "./UpdatePassword.css";
 import Modal from "react-bootstrap/Modal";
-import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { updatePassword } from "../../../pages/redux/reducers/authReducers";
@@ -88,12 +87,12 @@ const UpdatePassword = (props) => {
         </form>
       </Modal.Body>
       <Modal.Footer className="change-password-footer">
-        <Button
-          className="modal-btn form-control-sm"
+        <button
+          className="change-pswd-submit-btn"
           onClick={passwordChangeHandle}
         >
           {loading ? "Loading..." : "Submit"}
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

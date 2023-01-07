@@ -12,7 +12,9 @@ import { toast } from "react-toastify";
 const PopupMessage = () => {
   const [updateMessage, setUpdateMessage] = useState(false);
   const [customMsg, setCustomMsg] = useState("");
+  const [updateCustomMsg, setUpdateCustomMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const dispatch = useDispatch();
 
   const popupMessage = useSelector((state) => state.app.popupMessage);
@@ -22,34 +24,43 @@ const PopupMessage = () => {
   }, []);
 
   const sendCustomMessage = () => {
-    const msg = {
-      message: customMsg,
-    };
-    dispatch(createPopupMessage(msg), setLoading(true))
-      .then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+    if (customMsg) {
+      const msg = {
+        message: customMsg,
+      };
+      dispatch(createPopupMessage(msg), setLoading(true))
+        .then((res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            setLoading(false);
+            toast.success("Custom message successfully sent");
+          }
+          if (res.meta.requestStatus === "rejected") {
+            setLoading(false);
+            toast.error(res.payload);
+          }
+          console.log(res);
+        })
+        .catch((err) => {
           setLoading(false);
-          toast.success("Custom message successfully sent");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          setLoading(false);
-          toast.error(res.payload);
-        }
-        console.log(res);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.error(err);
-      });
+          console.error(err);
+        });
+    } else {
+      toast.error("Custom message required");
+    }
   };
 
   return (
     <div className="popup-message-wrapper">
       <div className="popup-scroll-div">
         <div className="featured-message container">
-          {popupMessage.message}
+          <div className="custom-msg">
+            {" "}
+            {popupMessage
+              ? popupMessage.message
+              : "No custom message available"}
+          </div>
           <div className="edit-btn" onClick={() => setUpdateMessage(true)}>
-            <span>
+            <span onClick={() => setUpdateCustomMsg(popupMessage)}>
               <GoPencil />
             </span>
           </div>
@@ -65,11 +76,11 @@ const PopupMessage = () => {
               onChange={(e) => setCustomMsg(e.target.value)}
             ></textarea>
           </div>
-          <button
-            className="form-control bg-secondary text-light mt-2"
-            onClick={sendCustomMessage}
-          >
+          <button className="popup-msg-submit-btn" onClick={sendCustomMessage}>
             {loading ? "Loading..." : "Send"}
+          </button>
+          <button className="popup-msg-delete-btn" onClick={sendCustomMessage}>
+            {deleteLoading ? "Loading..." : "Delete"}
           </button>
         </div>
         {/* <div className="add-message container mt-3 mb-2">
@@ -88,7 +99,7 @@ const PopupMessage = () => {
       </div>
       <UpdateMessage
         show={updateMessage}
-        popupmessage={popupMessage}
+        popupmessage={updateCustomMsg}
         onHide={() => setUpdateMessage(false)}
       />
     </div>

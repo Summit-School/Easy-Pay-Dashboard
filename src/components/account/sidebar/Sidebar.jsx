@@ -28,7 +28,7 @@ const Sidebar = () => {
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             <div>
               <img src="/images/Easy_pay.png" className="logo" alt="logo" />
-              <h5>Easy Pay</h5>
+              <h5>EASY PAY</h5>
             </div>
           </h5>
           <button
@@ -42,27 +42,27 @@ const Sidebar = () => {
           <div className="sidebar-body">
             <li>
               <span className="icon">
-                <MdDashboard size={35} />
+                <MdDashboard size={25} />
               </span>
-              <Link to="/dashboard">DASHBOARD</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
               <span className="icon">
-                <FaUsers size={35} />
+                <FaUsers size={25} />
               </span>
-              <Link to="/users">USERS</Link>
+              <Link to="/users">Users</Link>
             </li>
             <li>
               <span className="icon">
-                <BiMoney size={35} />
+                <BiMoney size={25} />
               </span>
-              <Link to="/transactions">TRANSACTIONS</Link>
+              <Link to="/transactions">Transactions</Link>
             </li>
             <li>
               <span className="icon">
-                <MdSettingsSuggest size={35} />
+                <MdSettingsSuggest size={25} />
               </span>
-              <Link to="/popup_message">CUSTOM MESSAGE</Link>
+              <Link to="/popup_message">Custom Message</Link>
             </li>
           </div>
         </div>

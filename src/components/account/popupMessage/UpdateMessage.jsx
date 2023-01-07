@@ -50,7 +50,7 @@ const UpdateMessage = (props) => {
         <div>
           <textarea
             cols="25"
-            rows="10"
+            rows="5"
             value={updateMessage}
             onChange={(e) => setUpdateMessage(e.target.value)}
             className="form-control"
@@ -59,7 +59,7 @@ const UpdateMessage = (props) => {
       </Modal.Body>
       <Modal.Footer className="change-password-footer">
         <Button
-          className="modal-btn form-control-sm"
+          className="update-popup-msg-submit-btn"
           onClick={() => handleUpdate(props.popupmessage._id)}
         >
           {loading ? "Loading..." : "Submit"}
