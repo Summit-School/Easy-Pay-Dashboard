@@ -3,10 +3,10 @@
     margin: auto;
     background-color: #fff;
     margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 3px;
     padding: 20px;
     height: 90vh;
-    box-shadow: rgba(40, 22, 203, 0.24) 0px 3px 8px;
+    border: 1px solid grey;
 }
 
 .chatBox {
@@ -40,4 +40,12 @@
     cursor: pointer;
     background-color: teal;
     color: white;
+}
+
+@media only screen and (max-width: 600px) {
+    .messager-wrapper {
+        width: 100%;
+        border: none;
+        /* background-color: whitesmoke; */
+    }
 }
