@@ -66,11 +66,28 @@ const updatePopupMessage = async (updateData) => {
 };
 
 const createPopupMessage = async (data) => {
-  console.log(data);
   const response = await axios.post(
     `${API_URL_POPUPMESSAGE}/createPopupMessage`,
     data
   );
+
+  if (response.data) {
+    const data = await axios.get(`${API_URL_POPUPMESSAGE}/getPopupMessage`);
+    return data.data;
+  }
+
+  return response.data;
+};
+
+const deletePopupMessage = async (msgID) => {
+  const response = await axios.delete(
+    `${API_URL_POPUPMESSAGE}/deletePopupMessage/${msgID}`
+  );
+
+  if (response.data) {
+    const data = await axios.get(`${API_URL_POPUPMESSAGE}/getPopupMessage`);
+    return data.data;
+  }
 
   return response.data;
 };
@@ -84,6 +101,7 @@ const appServices = {
   getPopupMessage,
   updatePopupMessage,
   createPopupMessage,
+  deletePopupMessage,
 };
 
 export default appServices;

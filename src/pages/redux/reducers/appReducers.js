@@ -117,6 +117,22 @@ export const updatePopupMessage = createAsyncThunk(
   }
 );
 
+export const deletePopupMessage = createAsyncThunk(
+  "app/deletePopupMessage",
+  async (msgID, thunkAPI) => {
+    try {
+      return await appServices.deletePopupMessage(msgID);
+    } catch (error) {
+      const message =
+        (error.message && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const createPopupMessage = createAsyncThunk(
   "app/createPopupMessage",
   async (msg, thunkAPI) => {
@@ -173,6 +189,13 @@ export const appSlice = createSlice({
         state.transactions = [action.payload];
       })
 
+      .addCase(createPopupMessage.fulfilled, (state, action) => {
+        state.popupMessage = action.payload;
+      })
+      .addCase(createPopupMessage.rejected, (state, action) => {
+        state.popupMessage = "";
+      })
+
       .addCase(getPopupMessage.fulfilled, (state, action) => {
         state.popupMessage = action.payload;
       })
@@ -185,6 +208,10 @@ export const appSlice = createSlice({
       })
       .addCase(updatePopupMessage.rejected, (state, action) => {
         state.popupMessage = "";
+      })
+
+      .addCase(deletePopupMessage.fulfilled, (state, action) => {
+        state.popupMessage = {};
       });
   },
 });

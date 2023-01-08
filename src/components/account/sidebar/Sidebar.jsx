@@ -40,30 +40,30 @@ const Sidebar = () => {
         </div>
         <div className="offcanvas-body">
           <div className="sidebar-body">
-            <li>
+            <Link to="/dashboard">
               <span className="icon">
                 <MdDashboard size={25} />
               </span>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
+              Dashboard
+            </Link>
+            <Link to="/users">
               <span className="icon">
                 <FaUsers size={25} />
               </span>
-              <Link to="/users">Users</Link>
-            </li>
-            <li>
+              Users
+            </Link>
+            <Link to="/transactions">
               <span className="icon">
                 <BiMoney size={25} />
               </span>
-              <Link to="/transactions">Transactions</Link>
-            </li>
-            <li>
+              Transactions
+            </Link>
+            <Link to="/popup_message">
               <span className="icon">
                 <MdSettingsSuggest size={25} />
               </span>
-              <Link to="/popup_message">Custom Message</Link>
-            </li>
+              Custom Message
+            </Link>
           </div>
         </div>
       </div>

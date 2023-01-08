@@ -22,7 +22,6 @@ const Transactions = () => {
 
   const changeStatus = async (txnID) => {
     const res = await dispatch(transactionStatus(txnID));
-    // const update = await dispatch(getTransactions());
 
     if (res.meta.requestStatus === "fulfilled") {
       toast.success("Transaction status updated");

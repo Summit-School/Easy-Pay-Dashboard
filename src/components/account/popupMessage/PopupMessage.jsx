@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getPopupMessage,
   createPopupMessage,
+  deletePopupMessage,
 } from "../../../pages/redux/reducers/appReducers";
 import { toast } from "react-toastify";
 
@@ -38,7 +39,6 @@ const PopupMessage = () => {
             setLoading(false);
             toast.error(res.payload);
           }
-          console.log(res);
         })
         .catch((err) => {
           setLoading(false);
@@ -47,6 +47,24 @@ const PopupMessage = () => {
     } else {
       toast.error("Custom message required");
     }
+  };
+
+  const deleteCustomMessage = () => {
+    dispatch(deletePopupMessage(popupMessage._id), setDeleteLoading(true))
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setDeleteLoading(false);
+          toast.success("Custom message deleted successfully");
+        }
+        if (res.meta.requestStatus === "rejected") {
+          setDeleteLoading(false);
+          toast.error(res.payload);
+        }
+      })
+      .catch((err) => {
+        setDeleteLoading(false);
+        console.error(err);
+      });
   };
 
   return (
@@ -79,7 +97,10 @@ const PopupMessage = () => {
           <button className="popup-msg-submit-btn" onClick={sendCustomMessage}>
             {loading ? "Loading..." : "Send"}
           </button>
-          <button className="popup-msg-delete-btn" onClick={sendCustomMessage}>
+          <button
+            className="popup-msg-delete-btn"
+            onClick={deleteCustomMessage}
+          >
             {deleteLoading ? "Loading..." : "Delete"}
           </button>
         </div>

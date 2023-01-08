@@ -8,21 +8,61 @@ import Transactions from "../../../components/account/transactions/Transactions"
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setRate, getCxnRate } from "../../redux/reducers/appReducers";
+import {
+  setRate,
+  getCxnRate,
+  getUsers,
+  getTransactions,
+} from "../../redux/reducers/appReducers";
 
 const Dashboard = () => {
   const [cxnRate, setCxnRate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [numberofUser, setNumberofUsers] = useState(0);
+  const [numberofTxn, setNumberofTxn] = useState(0);
+  const [pendingTransactions, setPendingTransactions] = useState(0);
+  const [totalIncome, setTotalIncome] = useState(0);
 
   const getRate = useSelector((state) => state.app.conversionRate);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCxnRate())
+    // Conversion rate function
+    dispatch(getCxnRate(), getTransactions())
       .then((res) => {
         if (res.meta.requestStatus === "rejected") {
           console.error(res.payload);
+        }
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+    // Get users function
+    dispatch(getUsers())
+      .then((res) => {
+        if (res.meta.requestStatus === "rejected") {
+          console.error(res.payload);
+        }
+        if (res.meta.requestStatus === "fulfilled") {
+          setNumberofUsers(res.payload.length);
+        }
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+    // Transactions function
+    dispatch(getTransactions())
+      .then((res) => {
+        if (res.meta.requestStatus === "rejected") {
+          console.error(res.payload);
+        }
+        if (res.meta.requestStatus === "fulfilled") {
+          setNumberofTxn(res.payload.length);
+          let pendingTxn = res.payload.filter((txn) => txn.status === false);
+          setPendingTransactions(pendingTxn.length);
+          let amount = 0;
+          res.payload.map((txn) => (amount = txn.amount + amount));
+          setTotalIncome(amount);
         }
       })
       .catch((err) => {
@@ -71,25 +111,25 @@ const Dashboard = () => {
             <DashboardCards
               icon={<FaUsers size={35} />}
               title="NUMBER OF USER"
-              value={formatMoney(10265)}
+              value={formatMoney(numberofUser)}
               bgColor="purple"
             />
             <DashboardCards
               icon={<AiOutlineTransaction size={35} />}
               title="NUMBER OF TRANSACTIONS"
-              value={formatMoney(10265)}
+              value={formatMoney(numberofTxn)}
               bgColor="green"
             />
             <DashboardCards
               icon={<AiOutlineTransaction size={35} />}
               title="PENDING TRANSACTIONS"
-              value={formatMoney(10265)}
+              value={formatMoney(pendingTransactions)}
               bgColor="orange"
             />
             <DashboardCards
               icon={<BiMoney size={35} />}
               title="TOTAL INCOME"
-              value={formatMoney(10265)}
+              value={formatMoney(totalIncome)}
               bgColor="gray"
             />
           </div>

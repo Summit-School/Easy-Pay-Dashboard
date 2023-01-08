@@ -36,33 +36,20 @@
     margin: 10px 0 0 0px;
 }
 
-.sidebar-body li {
-    width: 100%;
+.sidebar-body a {
+    display: block;
+    text-decoration: none;
     text-align: left;
     list-style: none;
     border-radius: 3px;
     padding: 5px 5px;
+    color: black;
 }
 
-.sidebar-body li:hover {
-    background-color: grey;
-    color: white;
+.sidebar-body a:hover {
+    background-color: lightgrey;
 }
 
 .icon {
-    /* color: darkblue; */
-    margin: 18px 5px 0 0;
-}
-
-.sidebar-body li a {
-    text-decoration: none;
-    color: black;
-    margin-left: 10px;
-    font-size: 17px;
-    padding: 5px 0;
-    padding-right: 30px;
-}
-
-.sidebar-body li a:hover {
-    color: white;
+    margin: 0 10px 0 0;
 }
