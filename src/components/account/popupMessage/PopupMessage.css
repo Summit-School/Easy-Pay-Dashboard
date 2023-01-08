@@ -67,3 +67,10 @@
 .edit-btn:hover {
     cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+    .popup-scroll-div {
+        width: 95%;
+        margin: auto;
+    }
+}
