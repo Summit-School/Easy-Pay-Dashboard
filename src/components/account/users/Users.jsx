@@ -67,7 +67,7 @@ const Users = () => {
                 <td className="phone">{user.phoneNumber}</td>
                 <td className="phone">{user.numberOfTxn}</td>
                 <td className="msg-btn">
-                  <Link to="./messanger">
+                  <Link to="./messanger" state={{ userId: user._id }}>
                     <button>message</button>
                   </Link>
                 </td>
