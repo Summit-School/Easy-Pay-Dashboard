@@ -52,7 +52,7 @@ const Users = () => {
             <tr>
               <th>SN</th>
               <th>Name</th>
-              {/* <th>Email</th> */}
+              <th>Email</th>
               <th>Phone</th>
               <th>Transactions</th>
               <th>Message</th>
@@ -63,7 +63,7 @@ const Users = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td className="user-name">{user.username}</td>
-                {/* <td className="user-email">test@gmail.com</td> */}
+                <td className="user-email">{user.email}</td>
                 <td className="phone">{user.phoneNumber}</td>
                 <td className="phone">{user.numberOfTxn}</td>
                 <td className="msg-btn">
