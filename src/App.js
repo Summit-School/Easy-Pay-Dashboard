@@ -7,6 +7,7 @@ import Users from "./pages/account/users/Users";
 import PopupMessage from "./pages/account/popupMessage/PopupMessage";
 import PageError from "./pages/404/PageError";
 import Messanger from "./pages/messanger/Messanger";
+import Protected from "./components/protected/Protected";
 
 // bringing in the toastify for it to work everywhere
 import { ToastContainer } from "react-toastify";
@@ -19,11 +20,39 @@ function App() {
         <Routes>
           {/* UNPROTECTED ROUTES */}
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transactions />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Protected>
+                <Dashboard />
+              </Protected>
+            }
+          />
+          <Route
+            path="/transactions"
+            element={
+              <Protected>
+                <Transactions />
+              </Protected>
+            }
+          />
           <Route path="/users" element={<Users />} />
-          <Route path="/popup_message" element={<PopupMessage />} />
-          <Route path="/users/messanger" element={<Messanger />} />
+          <Route
+            path="/popup_message"
+            element={
+              <Protected>
+                <PopupMessage />
+              </Protected>
+            }
+          />
+          <Route
+            path="/users/messanger"
+            element={
+              <Protected>
+                <Messanger />
+              </Protected>
+            }
+          />
 
           {/* 404 ROUTE */}
           <Route path="*" element={<PageError />} />
