@@ -16,6 +16,11 @@ const Transactions = () => {
 
   const [transactions] = useSelector((state) => state.app.transactions);
 
+  const formatMoney = (amount) => {
+    let dollarUSLocale = Intl.NumberFormat("en-US");
+    return dollarUSLocale.format(amount);
+  };
+
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
@@ -73,6 +78,8 @@ const Transactions = () => {
               <th>Name</th>
               <th>Number</th>
               <th>Amount</th>
+              <th>Receiver Name</th>
+              <th>Receiver Number</th>
               <th>Screenshot</th>
               <th>Status</th>
               <th>Time</th>
@@ -85,7 +92,9 @@ const Transactions = () => {
                 <td className="txn-name">{index + 1}</td>
                 <td className="txn-name">{txn.username}</td>
                 <td className="txn-name">{txn.phoneNumber}</td>
-                <td className="txn-amount">{txn.amount}</td>
+                <td className="txn-amount">{formatMoney(txn.amount)} FCFA</td>
+                <td className="txn-name">{txn.receiverName}</td>
+                <td className="txn-name">{txn.receiverNumber}</td>
                 <td className="txn-screenshot">
                   <a
                     href={`${process.env.REACT_APP_ENDPOINT}/${txn.screenshot}`}
