@@ -52,7 +52,7 @@ const Login = () => {
         <div className="logo">
           <img src="/images/Easy_pay.png" alt="" />
         </div>
-        <h3>Easy Pay Login</h3>
+        <h3>Easy Kings Pay Login</h3>
         <form>
           <div className="email-div">
             <input

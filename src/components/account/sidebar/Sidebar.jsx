@@ -28,7 +28,7 @@ const Sidebar = () => {
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             <div>
               <img src="/images/Easy_pay.png" className="logo" alt="logo" />
-              <h5>EASY PAY</h5>
+              <h5>EASY KINGS PAY</h5>
             </div>
           </h5>
           <button
