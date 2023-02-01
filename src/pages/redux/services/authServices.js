@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const API_URL = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/admin/`;
+const API_URL = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/admin`;
 
 // admin login
 const login = async (adminData) => {
+  console.log(`${API_URL}/admin_login`);
   const response = await axios.post(`${API_URL}/admin_login`, adminData, {
     headers: {
       "Content-Type": "application/json",
