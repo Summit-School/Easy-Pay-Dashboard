@@ -4,7 +4,7 @@ const API_URL = `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_A
 
 // admin login
 const login = async (adminData) => {
-  console.log(`${API_URL}/admin_login`);
+  console.log(`test ${API_URL}/admin_login`);
   const response = await axios.post(`${API_URL}/admin_login`, adminData, {
     headers: {
       "Content-Type": "application/json",
