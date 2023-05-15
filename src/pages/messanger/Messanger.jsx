@@ -65,9 +65,11 @@ const Messanger = () => {
 
   useEffect(() => {
     // connect user to socket server
-    socket.current = io("ws://localhost:4000");
+    socket.current = io("https://easykingspaysocketioserver.herokuapp.com");
+
     // get messages from server
     socket.current.on("getMessage", (data) => {
+      console.log("message data", data);
       setArrivalMessage({
         text: data.text,
         message: data.message,
@@ -78,6 +80,7 @@ const Messanger = () => {
 
   useEffect(() => {
     arrivalMessage && setUserMessages([...messages, arrivalMessage]);
+    console.log("new arrived message", arrivalMessage);
   }, [arrivalMessage, messages]);
 
   useEffect(() => {
