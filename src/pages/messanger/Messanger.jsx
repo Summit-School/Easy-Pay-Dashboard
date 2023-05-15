@@ -64,6 +64,7 @@ const Messanger = () => {
   };
 
   useEffect(() => {
+    console.log("connecting to socket server");
     // connect user to socket server
     socket.current = io("https://easykingspaysocketioserver.herokuapp.com");
 
@@ -84,6 +85,7 @@ const Messanger = () => {
   }, [arrivalMessage, messages]);
 
   useEffect(() => {
+    console.log("adding user to server");
     socket.current.emit("addUser", userId);
   }, [userId]);
 
