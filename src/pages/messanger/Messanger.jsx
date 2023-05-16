@@ -66,7 +66,8 @@ const Messanger = () => {
   useEffect(() => {
     console.log("connecting to socket server");
     // connect user to socket server
-    socket.current = io();
+    // socket.current = io("http://localhost:7000");
+    socket.current = io("https://easykingspaysocketioserver.herokuapp.com/");
 
     // get messages from server
     socket.current.on("getMessage", (data) => {
