@@ -1,5 +1,5 @@
 import "./Messanger.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import Message from "../../components/account/message/Message";
@@ -17,15 +17,45 @@ const Messanger = () => {
   const [adminID, setAdminID] = useState("");
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const socket = useRef();
   const [userMessages, setUserMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [socket, setSocket] = useState(null);
 
   const dispatch = useDispatch();
   const location = useLocation();
   const messages = useSelector((state) => state.messenger.messages);
 
   const { userId } = location.state;
+
+  useEffect(() => {
+    console.log("connecting to socket server");
+    // connect user to socket server
+    const socket = io("https://easykingspay.herokuapp.com");
+    setSocket(socket);
+
+    console.log("adding user to server");
+    socket.emit("addUser", userId);
+
+    arrivalMessage && setUserMessages([...messages, arrivalMessage]);
+    console.log("new arrived message", arrivalMessage);
+
+    // get messages from server
+    socket.on("getMessage", (data) => {
+      console.log("message data", data);
+      setArrivalMessage({
+        text: data.text,
+        message: data.message,
+        createdAt: Date.now(),
+      });
+    });
+  }, [userId, arrivalMessage, messages]);
+
+  useEffect(() => {
+    const { userId } = location.state;
+    const adminId = userID();
+    setAdminID(adminId);
+    dispatch(getMessages(userId));
+  }, []);
 
   const sendNewMessage = () => {
     const { userId } = location.state;
@@ -36,7 +66,7 @@ const Messanger = () => {
         text: newMessage,
       };
       // send message to socket server
-      socket.current.emit("sendMessage", {
+      socket.emit("sendMessage", {
         senderId: adminID,
         receiverId: userId,
         text: newMessage,
@@ -62,40 +92,6 @@ const Messanger = () => {
       toast.warning("message is required");
     }
   };
-
-  useEffect(() => {
-    console.log("connecting to socket server");
-    // connect user to socket server
-    // socket.current = io("http://localhost:7000");
-    socket.current = io("https://easykingspaysocketioserver.herokuapp.com/");
-
-    // get messages from server
-    socket.current.on("getMessage", (data) => {
-      console.log("message data", data);
-      setArrivalMessage({
-        text: data.text,
-        message: data.message,
-        createdAt: Date.now(),
-      });
-    });
-  }, [userId]);
-
-  useEffect(() => {
-    arrivalMessage && setUserMessages([...messages, arrivalMessage]);
-    console.log("new arrived message", arrivalMessage);
-  }, [arrivalMessage, messages]);
-
-  useEffect(() => {
-    console.log("adding user to server");
-    socket.current.emit("addUser", userId);
-  }, [userId]);
-
-  useEffect(() => {
-    const { userId } = location.state;
-    const adminId = userID();
-    setAdminID(adminId);
-    dispatch(getMessages(userId));
-  }, []);
 
   return (
     <Layout>

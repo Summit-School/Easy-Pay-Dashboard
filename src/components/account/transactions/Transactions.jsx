@@ -107,7 +107,7 @@ const Transactions = () => {
                   </span> */}
                 </td>
                 <td className="status">
-                  {txn.status == true ? (
+                  {txn.status === true ? (
                     <span
                       style={{
                         backgroundColor: "green",
