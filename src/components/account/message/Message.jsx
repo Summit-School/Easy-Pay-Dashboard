@@ -8,7 +8,7 @@ const Message = ({ message, own }) => {
         {/* <img className="messageImg" src="/images/Easy_pay.png" alt="" /> */}
         <p className="messageText">{message.text}</p>
       </div>
-      <div className="messageBottom">{format(message.createdAt)}</div>
+      <div className="messageBottom">{format(message.date)}</div>
     </div>
   );
 };

@@ -3,58 +3,27 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import Message from "../../components/account/message/Message";
-import {
-  getMessages,
-  createNewMessage,
-} from "../redux/reducers/messageReducers";
-import { useSelector, useDispatch } from "react-redux";
+import { getAllMessages, sendMessage } from "../../api/messaging";
 import userID from "../shared/userID";
 import { toast } from "react-toastify";
-// socket-io connection import
-import { io } from "socket.io-client";
 
 const Messanger = () => {
   const [adminID, setAdminID] = useState("");
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userMessages, setUserMessages] = useState([]);
-  const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [socket, setSocket] = useState(null);
-
-  const dispatch = useDispatch();
+  const [message, setMessage] = useState([]);
   const location = useLocation();
-  const messages = useSelector((state) => state.messenger.messages);
-
-  const { userId } = location.state;
-
-  useEffect(() => {
-    console.log("connecting to socket server");
-    // connect user to socket server
-    const socket = io("https://easykingspay.herokuapp.com");
-    setSocket(socket);
-
-    console.log("adding user to server");
-    socket.emit("addUser", userId);
-
-    arrivalMessage && setUserMessages([...messages, arrivalMessage]);
-    console.log("new arrived message", arrivalMessage);
-
-    // get messages from server
-    socket.on("getMessage", (data) => {
-      console.log("message data", data);
-      setArrivalMessage({
-        text: data.text,
-        message: data.message,
-        createdAt: Date.now(),
-      });
-    });
-  }, [userId, arrivalMessage, messages]);
 
   useEffect(() => {
     const { userId } = location.state;
     const adminId = userID();
     setAdminID(adminId);
-    dispatch(getMessages(userId));
+    getAllMessages(userId, (messages) => {
+      const sortedAssec = messages.sort(
+        (objA, objB) => Number(objA.date) - Number(objB.date)
+      );
+      setMessage(sortedAssec);
+    });
   }, []);
 
   const sendNewMessage = () => {
@@ -64,30 +33,13 @@ const Messanger = () => {
         sender: adminID,
         receiver: userId,
         text: newMessage,
+        date: Date.now(),
       };
-      // send message to socket server
-      socket.emit("sendMessage", {
-        senderId: adminID,
-        receiverId: userId,
-        text: newMessage,
-      });
-      // end socket server function
-      dispatch(createNewMessage(messageData), setLoading(true))
-        .then((res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            setLoading(false);
-            toast.success("message sent");
-            setNewMessage("");
-          }
-          if (res.meta.requestStatus === "rejected") {
-            setLoading(false);
-            toast.error("Failed");
-          }
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.error(err);
-        });
+      setLoading(true);
+      const result = sendMessage(userId, messageData);
+      setLoading(false);
+      toast.success("message sent");
+      setNewMessage("");
     } else {
       toast.warning("message is required");
     }
@@ -98,12 +50,12 @@ const Messanger = () => {
       <div className="messager-wrapper">
         <div className="chatBox">
           <div className="chatBoxTop">
-            {messages?.length > 0
-              ? messages.map((message, index) => (
+            {message.length > 0
+              ? message.map((message, index) => (
                   <Message
                     key={index}
                     message={message}
-                    own={message.message[0] === adminID}
+                    own={message.sender === adminID}
                   />
                 ))
               : "No Messages Found Here"}
