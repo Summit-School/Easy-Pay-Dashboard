@@ -7,92 +7,118 @@ import DashboardCards from "../../../components/account/dashboardCards/Dashboard
 import Transactions from "../../../components/account/transactions/Transactions";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setRate,
-  getCxnRate,
-  getUsers,
-  getTransactions,
-} from "../../redux/reducers/appReducers";
+// import { useDispatch, useSelector } from "react-redux";
+// import {
+//   setRate,
+//   getCxnRate,
+//   getUsers,
+//   getTransactions,
+// } from "../../redux/reducers/appReducers";
+import { changeRate, getRate } from "../../../api/rate";
+import { getAllUsers } from "../../../api/auth.user";
+import { getTransactions } from "../../../api/transactions";
 
 const Dashboard = () => {
   const [cxnRate, setCxnRate] = useState("");
+  const [rate, setRate] = useState(0);
   const [loading, setLoading] = useState(false);
   const [numberofUser, setNumberofUsers] = useState(0);
   const [numberofTxn, setNumberofTxn] = useState(0);
   const [pendingTransactions, setPendingTransactions] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
 
-  const getRate = useSelector((state) => state.app.conversionRate);
-  const dispatch = useDispatch();
+  // const getRate = useSelector((state) => state.app.conversionRate);
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     // Conversion rate function
-    dispatch(getCxnRate(), getTransactions())
-      .then((res) => {
-        if (res.meta.requestStatus === "rejected") {
-          console.error(res.payload);
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    getRate((rate) => {
+      setRate(rate?.rate);
+    });
     // Get users function
-    dispatch(getUsers())
-      .then((res) => {
-        if (res.meta.requestStatus === "rejected") {
-          console.error(res.payload);
-        }
-        if (res.meta.requestStatus === "fulfilled") {
-          setNumberofUsers(res.payload.length);
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    getAllUsers((user) => {
+      setNumberofUsers(user.length);
+    });
+    // get transactions function
+    getTransactions((transactions) => {
+      setNumberofTxn(transactions.length);
+      let pendingTxn = transactions.filter((txn) => txn.status === false);
+      setPendingTransactions(pendingTxn.length);
+      let amount = 0;
+      transactions.map((txn) => (amount += Number(txn.amount)));
+      setTotalIncome(amount);
+    });
+
+    // dispatch(getUsers())
+    //   .then((res) => {
+    //     if (res.meta.requestStatus === "rejected") {
+    //       console.error(res.payload);
+    //     }
+    //     if (res.meta.requestStatus === "fulfilled") {
+    //       setNumberofUsers(res.payload.length);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error(err.message);
+    //   });
     // Transactions function
-    dispatch(getTransactions())
-      .then((res) => {
-        if (res.meta.requestStatus === "rejected") {
-          console.error(res.payload);
-        }
-        if (res.meta.requestStatus === "fulfilled") {
-          setNumberofTxn(res.payload.length);
-          let pendingTxn = res.payload.filter((txn) => txn.status === false);
-          setPendingTransactions(pendingTxn.length);
-          let amount = 0;
-          res.payload.map((txn) => (amount = txn.amount + amount));
-          setTotalIncome(amount);
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    // dispatch(getTransactions())
+    //   .then((res) => {
+    //     if (res.meta.requestStatus === "rejected") {
+    //       console.error(res.payload);
+    //     }
+    //     if (res.meta.requestStatus === "fulfilled") {
+    //       setNumberofTxn(res.payload.length);
+    //       let pendingTxn = res.payload.filter((txn) => txn.status === false);
+    //       setPendingTransactions(pendingTxn.length);
+    //       let amount = 0;
+    //       res.payload.map((txn) => (amount = txn.amount + amount));
+    //       setTotalIncome(amount);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error(err.message);
+    //   });
   }, []);
 
   const setConversionRate = (e) => {
     e.preventDefault();
     if (cxnRate) {
-      const rate = {
-        cfa: cxnRate,
+      setLoading(true);
+      const data = {
+        rate: cxnRate,
       };
-      dispatch(setRate(rate), setLoading(true))
+      changeRate(data)
         .then((res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            dispatch(getCxnRate());
+          if (res.message === "Rate Updated") {
             setLoading(false);
             setCxnRate("");
-            toast.success(res.payload.message);
-          }
-          if (res.meta.requestStatus === "rejected") {
+            toast.success(res.message);
+          } else {
             setLoading(false);
-            toast.error(res.payload);
+            toast.error("Failed");
           }
         })
         .catch((err) => {
-          setLoading(false);
-          toast.error(err.message);
+          console.error(err);
         });
+      // dispatch(setRate(rate), setLoading(true))
+      //   .then((res) => {
+      //     if (res.meta.requestStatus === "fulfilled") {
+      //       dispatch(getCxnRate());
+      //       setLoading(false);
+      //       setCxnRate("");
+      //       toast.success(res.payload.message);
+      //     }
+      //     if (res.meta.requestStatus === "rejected") {
+      //       setLoading(false);
+      //       toast.error(res.payload);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     setLoading(false);
+      //     toast.error(err.message);
+      //   });
     } else {
       toast.error("Invalid rate");
     }
@@ -110,7 +136,7 @@ const Dashboard = () => {
           <div className="dashboard-cards container">
             <DashboardCards
               icon={<FaUsers size={35} />}
-              title="NUMBER OF USER"
+              title="NUMBER OF USERS"
               value={formatMoney(numberofUser)}
               bgColor="purple"
             />
@@ -136,7 +162,7 @@ const Dashboard = () => {
           <div className="conversion-rate container">
             <div className="rate-wrapper">
               <div className="display-rate">
-                Conversion rate: 1 Barhain = {getRate} FCFA
+                Conversion rate: 1 Barhain = {rate} FCFA
               </div>
               <div className="set-rate">
                 <input

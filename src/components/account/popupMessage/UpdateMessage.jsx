@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
-import { updatePopupMessage } from "../../../pages/redux/reducers/appReducers";
-import { useDispatch } from "react-redux";
+// import { updatePopupMessage } from "../../../pages/redux/reducers/appReducers";
+// import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+
+import { updateInstructions } from "../../../api/instructions";
 
 const UpdateMessage = (props) => {
   const [loading, setLoading] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState(
-    props.popupmessage.message
-  );
+  const [updateMessage, setUpdateMessage] = useState(props.popupmessage);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    setUpdateMessage(props.popupmessage);
+  }, []);
+
+  // const dispatch = useDispatch();
 
   const handleUpdate = async (msgID) => {
     setLoading(true);
@@ -19,17 +23,31 @@ const UpdateMessage = (props) => {
       msgID: msgID,
       message: updateMessage,
     };
-    const res = await dispatch(updatePopupMessage(updateData));
-    if (res.meta.requestStatus === "fulfilled") {
-      setLoading(false);
-      toast.success("Transaction status updated");
-      props.onHide();
-      toast.error(res.payload);
-    }
-    if (res.meta.requestStatus === "rejected") {
-      setLoading(false);
-      toast.error(res.payload);
-    }
+    updateInstructions(updateData)
+      .then((res) => {
+        if (res.message === "Instructions Updated") {
+          setLoading(false);
+          toast.success(res.message);
+          props.onHide();
+        } else {
+          setLoading(false);
+          toast.error(res.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // const res = await dispatch(updatePopupMessage(updateData));
+    // if (res.meta.requestStatus === "fulfilled") {
+    //   setLoading(false);
+    //   toast.success("Transaction status updated");
+    //   props.onHide();
+    //   toast.error(res.payload);
+    // }
+    // if (res.meta.requestStatus === "rejected") {
+    //   setLoading(false);
+    //   toast.error(res.payload);
+    // }
   };
 
   return (
@@ -60,7 +78,7 @@ const UpdateMessage = (props) => {
       <Modal.Footer className="change-password-footer">
         <Button
           className="update-popup-msg-submit-btn"
-          onClick={() => handleUpdate(props.popupmessage._id)}
+          onClick={() => handleUpdate(props.popupmessage.id)}
         >
           {loading ? "Loading..." : "Submit"}
         </Button>

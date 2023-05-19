@@ -2,8 +2,9 @@ import "./UpdatePassword.css";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { updatePassword } from "../../../pages/redux/reducers/authReducers";
+// import { updatePassword } from "../../../pages/redux/reducers/authReducers";
 import { useDispatch } from "react-redux";
+import { updatePassword } from "../../../api/auth.admin";
 import userID from "../../../pages/shared/userID";
 
 const UpdatePassword = (props) => {
@@ -22,23 +23,34 @@ const UpdatePassword = (props) => {
         toast.error("Passwords do not match");
         return;
       }
+      setLoading(true);
       const adminID = userID();
       const data = {
-        adminID,
+        id: adminID,
         currentPassword,
         newPassword,
       };
-      dispatch(updatePassword(data), setLoading(true)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
+      updatePassword(data).then((res) => {
+        if (res.message === "Password Updated") {
           setLoading(false);
           dispatch(props.onHide);
-          toast.success(res.payload.message);
-        }
-        if (res.meta.requestStatus === "rejected") {
+          toast.success(res.message);
+        } else {
           setLoading(false);
-          toast.error(res.payload);
+          toast.error(res.message);
         }
       });
+      // dispatch(updatePassword(data), setLoading(true)).then((res) => {
+      //   if (res.meta.requestStatus === "fulfilled") {
+      //     setLoading(false);
+      //     dispatch(props.onHide);
+      //     toast.success(res.payload.message);
+      //   }
+      //   if (res.meta.requestStatus === "rejected") {
+      //     setLoading(false);
+      //     toast.error(res.payload);
+      //   }
+      // });
     } else {
       toast.error("All fields are required");
       return;

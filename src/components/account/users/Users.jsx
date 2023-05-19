@@ -1,16 +1,22 @@
 import "./Users.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "../../../pages/redux/reducers/appReducers";
+// import { getUsers } from "../../../pages/redux/reducers/appReducers";
+
+import { getAllUsers } from "../../../api/auth.user";
 
 const Users = () => {
+  const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
-  const [users] = useSelector((state) => state.app.users);
+  // const [users] = useSelector((state) => state.app.users);
 
   useEffect(() => {
-    dispatch(getUsers());
+    // dispatch(getUsers());
+    getAllUsers((users) => {
+      setUsers(users);
+    });
   }, []);
 
   function myFunction(textInput) {
@@ -67,7 +73,7 @@ const Users = () => {
                 <td className="phone">{user.phoneNumber}</td>
                 <td className="phone">{user.numberOfTxn}</td>
                 <td className="msg-btn">
-                  <Link to="./messanger" state={{ userId: user._id }}>
+                  <Link to="./messanger" state={{ userId: user.id }}>
                     <button>message</button>
                   </Link>
                 </td>

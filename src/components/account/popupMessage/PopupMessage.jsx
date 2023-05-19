@@ -2,13 +2,15 @@ import "./PopupMessage.css";
 import { GoPencil } from "react-icons/go";
 import UpdateMessage from "./UpdateMessage";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getPopupMessage,
-  createPopupMessage,
-  deletePopupMessage,
-} from "../../../pages/redux/reducers/appReducers";
+// import { useSelector, useDispatch } from "react-redux";
+// import {
+//   getPopupMessage,
+//   createPopupMessage,
+//   deletePopupMessage,
+// } from "../../../pages/redux/reducers/appReducers";
 import { toast } from "react-toastify";
+
+import { getInstructions, addInstructions } from "../../../api/instructions";
 
 const PopupMessage = () => {
   const [updateMessage, setUpdateMessage] = useState(false);
@@ -16,55 +18,73 @@ const PopupMessage = () => {
   const [updateCustomMsg, setUpdateCustomMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [instructions, setInstructions] = useState("");
+  // const dispatch = useDispatch();
 
-  const popupMessage = useSelector((state) => state.app.popupMessage);
+  // const popupMessage = useSelector((state) => state.app.popupMessage);
 
   useEffect(() => {
-    dispatch(getPopupMessage());
+    getInstructions((instructions) => {
+      const message = instructions?.message;
+      setInstructions(message);
+    });
   }, []);
 
   const sendCustomMessage = () => {
     if (customMsg) {
-      const msg = {
+      setLoading(true);
+      const data = {
         message: customMsg,
       };
-      dispatch(createPopupMessage(msg), setLoading(true))
+      addInstructions(data)
         .then((res) => {
-          if (res.meta.requestStatus === "fulfilled") {
+          if (res.message === "Instruction Added") {
             setLoading(false);
-            toast.success("Custom message successfully sent");
-          }
-          if (res.meta.requestStatus === "rejected") {
+            toast.success(res.message);
+          } else {
             setLoading(false);
-            toast.error(res.payload);
+            toast.error(res.message);
           }
         })
         .catch((err) => {
-          setLoading(false);
           console.error(err);
         });
+      // dispatch(createPopupMessage(msg), setLoading(true))
+      //   .then((res) => {
+      //     if (res.meta.requestStatus === "fulfilled") {
+      //       setLoading(false);
+      //       toast.success("Custom message successfully sent");
+      //     }
+      //     if (res.meta.requestStatus === "rejected") {
+      //       setLoading(false);
+      //       toast.error(res.payload);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     setLoading(false);
+      //     console.error(err);
+      //   });
     } else {
       toast.error("Custom message required");
     }
   };
 
   const deleteCustomMessage = () => {
-    dispatch(deletePopupMessage(popupMessage._id), setDeleteLoading(true))
-      .then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          setDeleteLoading(false);
-          toast.success("Custom message deleted successfully");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          setDeleteLoading(false);
-          toast.error(res.payload);
-        }
-      })
-      .catch((err) => {
-        setDeleteLoading(false);
-        console.error(err);
-      });
+    // dispatch(deletePopupMessage(popupMessage._id), setDeleteLoading(true))
+    //   .then((res) => {
+    //     if (res.meta.requestStatus === "fulfilled") {
+    //       setDeleteLoading(false);
+    //       toast.success("Custom message deleted successfully");
+    //     }
+    //     if (res.meta.requestStatus === "rejected") {
+    //       setDeleteLoading(false);
+    //       toast.error(res.payload);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setDeleteLoading(false);
+    //     console.error(err);
+    //   });
   };
 
   return (
@@ -72,13 +92,10 @@ const PopupMessage = () => {
       <div className="popup-scroll-div">
         <div className="featured-message container">
           <div className="custom-msg">
-            {" "}
-            {popupMessage
-              ? popupMessage.message
-              : "No custom message available"}
+            {instructions != "" ? instructions : "No Instructions available"}
           </div>
           <div className="edit-btn" onClick={() => setUpdateMessage(true)}>
-            <span onClick={() => setUpdateCustomMsg(popupMessage)}>
+            <span onClick={() => setUpdateCustomMsg(instructions)}>
               <GoPencil />
             </span>
           </div>
@@ -89,20 +106,27 @@ const PopupMessage = () => {
               className="form-control"
               cols="30"
               rows="5"
-              placeholder="Enter custome message"
+              placeholder="Enter instructions for users"
               value={customMsg}
               onChange={(e) => setCustomMsg(e.target.value)}
             ></textarea>
           </div>
-          <button className="popup-msg-submit-btn" onClick={sendCustomMessage}>
-            {loading ? "Loading..." : "Send"}
-          </button>
-          <button
+          {instructions != "" ? (
+            ""
+          ) : (
+            <button
+              className="popup-msg-submit-btn"
+              onClick={sendCustomMessage}
+            >
+              {loading ? "Loading..." : "Send"}
+            </button>
+          )}
+          {/* <button
             className="popup-msg-delete-btn"
             onClick={deleteCustomMessage}
           >
             {deleteLoading ? "Loading..." : "Delete"}
-          </button>
+          </button> */}
         </div>
         {/* <div className="add-message container mt-3 mb-2">
           <div className="popup-message-input">

@@ -62,7 +62,7 @@ const Sidebar = () => {
               <span className="icon">
                 <MdSettingsSuggest size={25} />
               </span>
-              Custom Message
+              Instructions
             </Link>
           </div>
         </div>

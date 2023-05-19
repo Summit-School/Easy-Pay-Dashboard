@@ -3,18 +3,20 @@ import "./Transactions.css";
 import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
 // import { FaDownload } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getTransactions,
-  transactionStatus,
-} from "../../../pages/redux/reducers/appReducers";
+// import { useSelector, useDispatch } from "react-redux";/
+// import {
+//   getTransactions,
+//   transactionStatus,
+// } from "../../../pages/redux/reducers/appReducers";
 import { toast } from "react-toastify";
 
-const Transactions = () => {
-  // const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+import { getTransactions, updateTransaction } from "../../../api/transactions";
 
-  const [transactions] = useSelector((state) => state.app.transactions);
+const Transactions = () => {
+  const [transactions, setTransations] = useState([]);
+
+  // const dispatch = useDispatch();
+  // const [transactions] = useSelector((state) => state.app.transactions);
 
   const formatMoney = (amount) => {
     let dollarUSLocale = Intl.NumberFormat("en-US");
@@ -22,19 +24,35 @@ const Transactions = () => {
   };
 
   useEffect(() => {
-    dispatch(getTransactions());
+    getTransactions((transactions) => {
+      const sortedAssec = transactions.sort(
+        (objA, objB) => Number(objB.createdAt) - Number(objA.createdAt)
+      );
+      setTransations(sortedAssec);
+    });
   }, []);
 
   const changeStatus = async (txnID) => {
-    const res = await dispatch(transactionStatus(txnID));
-
-    if (res.meta.requestStatus === "fulfilled") {
-      toast.success("Transaction status updated");
-      toast.error(res.payload);
-    }
-    if (res.meta.requestStatus === "rejected") {
-      toast.error(res.payload);
-    }
+    console.log(txnID);
+    updateTransaction(txnID)
+      .then((res) => {
+        if (res.message === "Status Updated") {
+          toast.success(res.message);
+        } else {
+          toast.error(res.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // const res = await dispatch(transactionStatus(txnID));
+    // if (res.meta.requestStatus === "fulfilled") {
+    //   toast.success("Transaction status updated");
+    //   toast.error(res.payload);
+    // }
+    // if (res.meta.requestStatus === "rejected") {
+    //   toast.error(res.payload);
+    // }
   };
 
   function myFunction(textInput) {
@@ -124,7 +142,7 @@ const Transactions = () => {
                   <Moment format="HH:mm - DD:MM:YYYY ">{txn.createdAt}</Moment>
                 </td>
                 <td className="action">
-                  <button onClick={() => changeStatus(txn._id)}>
+                  <button onClick={() => changeStatus(txn.id)}>
                     {/* {loading ? "Loading..." : "Done"} */}
                     Done
                   </button>

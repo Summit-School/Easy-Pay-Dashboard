@@ -3,43 +3,61 @@ import { useState } from "react";
 import ForgotPassword from "../../../components/auth/ForgotPassword";
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login } from "../../redux/reducers/authReducers";
+// import { login } from "../../redux/reducers/authReducers";
+import { loginAdmin, registerAdmin } from "../../../api/auth.admin";
+import * as uuid from "uuid";
 
 const Login = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const id = uuid.v4();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (email && password) {
-      const loginDetails = {
-        email: email,
-        password: password,
-      };
+      setLoading(true);
+      loginAdmin(email, password).then((res) => {
+        if (res.email === email) {
+          localStorage.setItem(
+            "easykingspay-admin",
+            JSON.stringify({
+              docId: res.docId,
+              id: res.id,
+              email: res.email,
+            })
+          );
+          setLoading(false);
+          toast.success("Logged in successfully");
+          navigate("/dashboard");
+        } else {
+          setLoading(false);
+          toast.error("Authentication failed");
+        }
+      });
 
-      dispatch(login(loginDetails), setLoading(true))
-        .then((res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            setLoading(false);
-            toast.success("Logged in successfully");
-            navigate("/dashboard");
-          }
-          if (res.meta.requestStatus === "rejected") {
-            setLoading(false);
-            toast.error(res.payload);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      // dispatch(login(loginDetails), setLoading(true))
+      //   .then((res) => {
+      //     if (res.meta.requestStatus === "fulfilled") {
+      //       setLoading(false);
+      //       toast.success("Logged in successfully");
+      //       navigate("/dashboard");
+      //     }
+      //     if (res.meta.requestStatus === "rejected") {
+      //       setLoading(false);
+      //       toast.error(res.payload);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   });
     } else {
       toast.error("Email or password is required");
       return;
