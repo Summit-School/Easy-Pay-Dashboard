@@ -1,5 +1,6 @@
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { firestore } from "./firebase";
+import axios from "axios";
 
 export async function saveToken(data) {
   const result = await getDocs(collection(firestore, "pushTokens"));
@@ -40,7 +41,6 @@ export async function getUserPushToken(userId) {
 }
 
 export async function sendPushNotification(data) {
-  console.log(data);
   const message = {
     to: data.expoPushToken,
     sound: "default",
@@ -49,12 +49,23 @@ export async function sendPushNotification(data) {
     data: { someData: "goes here" },
   };
 
+  // axios.post("https://exp.host/--/api/v2/push/send", JSON.stringify(message), {
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Accept-encoding": "gzip, deflate",
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+
   await fetch("https://exp.host/--/api/v2/push/send", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Accept-encoding": "gzip, deflate",
       "Content-Type": "application/json",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
     },
     body: JSON.stringify(message),
   });
