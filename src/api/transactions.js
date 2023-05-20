@@ -1,5 +1,6 @@
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { firestore } from "./firebase";
+import { firestore, storage } from "./firebase";
+import { ref, listAll } from "firebase/storage";
 
 export function getTransactions(callback) {
   const result = collection(firestore, "transactions");
@@ -22,4 +23,12 @@ export async function updateTransaction(id) {
   } else {
     return { message: "Update Failed" };
   }
+}
+
+export async function getImagesFromFirestore() {
+  const imageList = ref(storage, "screenshots/");
+  const images = await listAll(imageList).then((res) => {
+    return res;
+  });
+  return images;
 }

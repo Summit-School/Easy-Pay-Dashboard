@@ -9,11 +9,16 @@ import Moment from "react-moment";
 //   transactionStatus,
 // } from "../../../pages/redux/reducers/appReducers";
 import { toast } from "react-toastify";
-
-import { getTransactions, updateTransaction } from "../../../api/transactions";
+import { getDownloadURL } from "firebase/storage";
+import {
+  getTransactions,
+  updateTransaction,
+  getImagesFromFirestore,
+} from "../../../api/transactions";
 
 const Transactions = () => {
   const [transactions, setTransations] = useState([]);
+  const [images, setImages] = useState([]);
 
   // const dispatch = useDispatch();
   // const [transactions] = useSelector((state) => state.app.transactions);
@@ -24,6 +29,15 @@ const Transactions = () => {
   };
 
   useEffect(() => {
+    getImagesFromFirestore().then((res) => {
+      res.items.forEach((item) => {
+        const name = item.name;
+        getDownloadURL(item).then((url) => {
+          setImages((prev) => [...prev, { name, url }]);
+        });
+      });
+    });
+
     getTransactions((transactions) => {
       const sortedAssec = transactions.sort(
         (objA, objB) => Number(objB.createdAt) - Number(objA.createdAt)
@@ -33,7 +47,6 @@ const Transactions = () => {
   }, []);
 
   const changeStatus = async (txnID) => {
-    console.log(txnID);
     updateTransaction(txnID)
       .then((res) => {
         if (res.message === "Status Updated") {
@@ -105,50 +118,54 @@ const Transactions = () => {
             </tr>
           </thead>
           <tbody>
-            {transactions?.map((txn, index) => (
-              <tr key={index}>
-                <td className="txn-name">{index + 1}</td>
-                <td className="txn-name">{txn.username}</td>
-                <td className="txn-name">{txn.phoneNumber}</td>
-                <td className="txn-amount">{formatMoney(txn.amount)} FCFA</td>
-                <td className="txn-name">{txn.receiverName}</td>
-                <td className="txn-name">{txn.receiverNumber}</td>
-                <td className="txn-screenshot">
-                  <a
-                    href={`${process.env.REACT_APP_ENDPOINT}/${txn.screenshot}`}
-                    target="_blank"
-                  >
-                    View Screenshot
-                  </a>
-                  {/* <span>
+            {transactions?.map((txn, index) => {
+              const image = images?.filter(
+                (img) => img.name === txn.screenshot
+              );
+              return (
+                <tr key={index}>
+                  <td className="txn-name">{index + 1}</td>
+                  <td className="txn-name">{txn.username}</td>
+                  <td className="txn-name">{txn.phoneNumber}</td>
+                  <td className="txn-amount">{formatMoney(txn.amount)} FCFA</td>
+                  <td className="txn-name">{txn.receiverName}</td>
+                  <td className="txn-name">{txn.receiverNumber}</td>
+                  <td className="txn-screenshot">
+                    <a href={`${image[0]?.url}`} target="_blank">
+                      View Screenshot
+                    </a>
+                    {/* <span>
                     <FaDownload />
                   </span> */}
-                </td>
-                <td className="status">
-                  {txn.status === true ? (
-                    <span
-                      style={{
-                        backgroundColor: "green",
-                        color: "white",
-                      }}
-                    >
-                      completed
-                    </span>
-                  ) : (
-                    <span style={{ backgroundColor: "yellow" }}>pending</span>
-                  )}
-                </td>
-                <td className="timestamp">
-                  <Moment format="HH:mm - DD:MM:YYYY ">{txn.createdAt}</Moment>
-                </td>
-                <td className="action">
-                  <button onClick={() => changeStatus(txn.id)}>
-                    {/* {loading ? "Loading..." : "Done"} */}
-                    Done
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="status">
+                    {txn.status === true ? (
+                      <span
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                        }}
+                      >
+                        completed
+                      </span>
+                    ) : (
+                      <span style={{ backgroundColor: "yellow" }}>pending</span>
+                    )}
+                  </td>
+                  <td className="timestamp">
+                    <Moment format="HH:mm - DD:MM:YYYY ">
+                      {txn.createdAt}
+                    </Moment>
+                  </td>
+                  <td className="action">
+                    <button onClick={() => changeStatus(txn.id)}>
+                      {/* {loading ? "Loading..." : "Done"} */}
+                      Done
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
