@@ -7,6 +7,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { firestore } from "./firebase";
+import { getAllPushTokens, sendPushNotification } from "./pushNotificaton";
 
 export async function changeRate(amount) {
   const result = await getDocs(collection(firestore, "rate"));
@@ -14,11 +15,22 @@ export async function changeRate(amount) {
   if (rateArray.length > 0) {
     const rateDoc = doc(firestore, "rate", rateArray[0].id);
     await updateDoc(rateDoc, { rate: amount.rate });
+    getAllPushTokens().then((tokens) => {
+      tokens.forEach(async (token) => {
+        const data = {
+          expoPuchToken: token.token,
+          title: "Rate Updated",
+          body: "Easy Kings Pay Updated It rates",
+        };
+        await sendPushNotification(data).then((res) => {
+          console.log("res", res);
+        });
+      });
+    });
     return { message: "Rate Updated" };
   }
   const rateRef = collection(firestore, "rate");
   const rate = await addDoc(rateRef, amount);
-
   return rate;
 }
 

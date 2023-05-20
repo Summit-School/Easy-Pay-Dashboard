@@ -26,16 +26,3 @@ export default function mailer(option) {
     console.error(error);
   }
 }
-
-// sendEmail({
-//   to: mailList.toString(),
-//   subject: "Rate Updated",
-//   message: `
-//                     <div>
-//                     Easy Kings Pay updated its exchange rate.
-//                     </div>
-//                     <div>
-//                     Log into the application to see the new rate.
-//                     </div>
-//                     `,
-// });

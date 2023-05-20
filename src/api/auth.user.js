@@ -1,13 +1,4 @@
-import {
-  collection,
-  doc,
-  getDocs,
-  updateDoc,
-  query,
-  addDoc,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { firestore } from "./firebase";
 
 export async function getAllUsers(callback) {
