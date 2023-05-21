@@ -19,8 +19,8 @@ export async function changeRate(amount) {
       tokens.forEach(async (token) => {
         const data = {
           to: token.token,
-          title: "Rate Updated",
-          body: "Easy Kings Pay Updated It rates",
+          title: "Exchange Rate Updated",
+          body: "Easy Kings Pay has updated its exchange rate. Click to view the new rate",
           sound: "default",
           data: { someData: "goes here" },
         };
