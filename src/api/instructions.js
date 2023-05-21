@@ -9,6 +9,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { firestore } from "./firebase";
+import { getAllPushTokens, sendPushNotification } from "./pushNotificaton";
 
 export async function addInstructions(data) {
   const instructionsRef = collection(firestore, "instructions");
@@ -45,6 +46,18 @@ export async function updateInstructions(data) {
       ratinstructionsArray[0].id
     );
     await updateDoc(ratinstructionsDoc, { message: data.message });
+    getAllPushTokens().then((tokens) => {
+      tokens.forEach(async (token) => {
+        const data = {
+          to: token.token,
+          title: "Intstructions updated",
+          body: "Easy Kings Pay has updated its instructions, click to view the updates.",
+          sound: "default",
+          data: { someData: "goes here" },
+        };
+        await sendPushNotification(data);
+      });
+    });
     return { message: "Instructions Updated" };
   }
 

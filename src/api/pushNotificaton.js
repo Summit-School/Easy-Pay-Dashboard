@@ -43,11 +43,15 @@ export async function getUserPushToken(userId) {
 }
 
 export async function sendPushNotification(data) {
-  axios.post(`${process.env.REACT_APP_ENDPOINT}/sendPushNotification`, data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  axios.post(
+    `${process.env.REACT_APP_ENDPOINT}/api/${process.env.REACT_APP_API_VERSION}/expo_notification/sendPushNotification`,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   // await fetch("https://exp.host/--/api/v2/push/getReceipts", {
   //   method: "POST",
