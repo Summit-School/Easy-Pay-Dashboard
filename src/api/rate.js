@@ -18,13 +18,13 @@ export async function changeRate(amount) {
     getAllPushTokens().then((tokens) => {
       tokens.forEach(async (token) => {
         const data = {
-          expoPuchToken: token.token,
+          to: token.token,
           title: "Rate Updated",
           body: "Easy Kings Pay Updated It rates",
+          sound: "default",
+          data: { someData: "goes here" },
         };
-        await sendPushNotification(data).then((res) => {
-          console.log("res", res);
-        });
+        await sendPushNotification(data);
       });
     });
     return { message: "Rate Updated" };
