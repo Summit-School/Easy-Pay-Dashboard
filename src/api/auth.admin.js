@@ -1,7 +1,6 @@
 import {
   collection,
   doc,
-  getDoc,
   addDoc,
   getDocs,
   updateDoc,
@@ -32,8 +31,9 @@ export const loginAdmin = async (email, password) => {
 };
 
 export async function forgotPassword(email) {
-  const adminRef = doc(firestore, "admin", email.toLowerCase());
-  const admin = (await getDoc(adminRef)).data();
+  const result = await getDocs(collection(firestore, "admin"));
+  const adminArray = result.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  const admin = adminArray[0];
   if (admin) {
     if (admin.email == email) {
       return { email: admin.email, password: "" };
@@ -58,5 +58,23 @@ export async function updatePassword(data) {
     }
   } else {
     return { message: "update password failed." };
+  }
+}
+
+/**
+ *
+ * @param {*} data
+ * @returns resets admin credentials
+ */
+export async function resetPassword(password) {
+  const result = await getDocs(collection(firestore, "admin"));
+  const adminArray = result.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  const admin = adminArray[0];
+  if (admin) {
+    const adminDoc = doc(firestore, "admin", admin.id);
+    await updateDoc(adminDoc, { password: password });
+    return { message: "success" };
+  } else {
+    return { message: "Invalid credentials" };
   }
 }

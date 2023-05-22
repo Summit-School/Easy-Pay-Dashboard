@@ -3,28 +3,25 @@ import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import ResetPassword from "./ResetPassword";
-import { forgotPassword } from "../../api/auth.admin";
+import { resetPassword } from "../../api/auth.admin";
 
-const ForgotPassword = (props) => {
-  const [email, setEmail] = useState("");
+const ResetPassword = (props) => {
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [resetPassword, setResetPassword] = useState(false);
 
   const dispatch = useDispatch();
 
-  const forgotPasswordHandler = () => {
+  const resetPasswordHandler = () => {
     setLoading(true);
-    if (email) {
-      forgotPassword(email)
+    if (password) {
+      resetPassword(password)
         .then((res) => {
-          if (res.email === email) {
+          if (res.message === "success") {
             toast.success("Success");
             setLoading(false);
             dispatch(props.onHide);
-            setResetPassword(true);
           } else {
-            toast.error("Invalid Email");
+            toast.error("Failed");
             setLoading(false);
           }
         })
@@ -48,17 +45,17 @@ const ForgotPassword = (props) => {
       >
         <Modal.Header className="change-password-header" closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Enter Email
+            Enter New Password
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="change-password-body">
           <form className="mt-0">
             <div className="email-field">
               <input
-                type="email"
+                type="password"
                 className="form-control form-control-sm"
-                placeholder="Enter email"
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter new password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </form>
@@ -66,18 +63,14 @@ const ForgotPassword = (props) => {
         <Modal.Footer className="change-password-footer">
           <Button
             className="modal-btn form-control-sm"
-            onClick={forgotPasswordHandler}
+            onClick={resetPasswordHandler}
           >
             {loading ? "Loading..." : "Submit"}
           </Button>
         </Modal.Footer>
       </Modal>
-      <ResetPassword
-        show={resetPassword}
-        onHide={() => setResetPassword(false)}
-      />
     </div>
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
