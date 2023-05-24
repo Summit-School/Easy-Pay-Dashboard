@@ -44,7 +44,7 @@ export async function updateTransaction(id) {
       await sendPushNotification(data);
       // email message
       const emailMsg = {
-        to: "sirdivine16@gmail.com",
+        to: user?.email,
         subject: "Transaction Completed",
         message: `
           <h4>Hello ${user?.username}</h4><br>
