@@ -3,9 +3,7 @@ import {
   doc,
   getDocs,
   updateDoc,
-  query,
   addDoc,
-  where,
   onSnapshot,
 } from "firebase/firestore";
 import { firestore } from "./firebase";
@@ -50,7 +48,7 @@ export async function updateInstructions(data) {
       tokens.forEach(async (token) => {
         const data = {
           to: token.token,
-          title: "Intstructions updated",
+          title: "Instructions updated",
           body: "Easy Kings Pay has updated its instructions, click to view the updates.",
           sound: "default",
           data: { someData: "goes here" },

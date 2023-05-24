@@ -1,8 +1,14 @@
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "./firebase";
 import { ref, listAll } from "firebase/storage";
-import { getUserPushToken, getTransactionById } from "./auth.user";
+import {
+  getUserPushToken,
+  getTransactionById,
+  getSingleUser,
+} from "./auth.user";
 import { sendPushNotification } from "./pushNotificaton";
+import { sendEmail } from "./sendEmail";
+import * as moment from "moment";
 
 export function getTransactions(callback) {
   const result = collection(firestore, "transactions");
@@ -23,7 +29,11 @@ export async function updateTransaction(id) {
     });
     await getTransactionById(id, async (transaction) => {
       const userId = transaction.userId;
+      const user = await getSingleUser(userId);
+      const txnDate = moment(transaction?.createdAt).format("DD-MM-YYYY");
+      const resDate = moment(Date.now()).format("DD-MM-YYYY");
       const token = await getUserPushToken(userId);
+      // notification message
       const data = {
         to: token.token,
         title: "Transaction Status",
@@ -32,6 +42,26 @@ export async function updateTransaction(id) {
         data: { someData: "goes here" },
       };
       await sendPushNotification(data);
+      // email message
+      const emailMsg = {
+        to: "sirdivine16@gmail.com",
+        subject: "Transaction Completed",
+        message: `
+          <h4>Hello ${user?.username}</h4><br>
+          <div>
+          Your Transaction to send BHD ${transaction.amountInBD} to ${transaction?.receiverName} with phone number ${transaction?.receiverNumber}
+          on the ${txnDate} has been completed. Please log in to the Easy Kings Pay Application to confirm this email.
+          </div><br>
+          <div>
+          This transaction was completed successfully on ${resDate}.
+          </div><br>
+          <div>
+          We thank you for trusting our services and hope to see you again in the future.
+          </div><br><br>
+          <div>Kind Regards</div>
+        `,
+      };
+      await sendEmail(emailMsg);
     });
     return { message: "Status Updated" };
   } else {
