@@ -76,3 +76,51 @@ export async function getImagesFromFirestore() {
   });
   return images;
 }
+
+export async function cancelTransaction(id) {
+  const txnDoc = doc(firestore, "transactions", id);
+  if (txnDoc) {
+    await updateDoc(txnDoc, {
+      cancelStatus: "cancelled",
+    });
+    await getTransactionById(id, async (transaction) => {
+      const userId = transaction.userId;
+      const user = await getSingleUser(userId);
+      const txnDate = moment(transaction?.createdAt).format("DD-MM-YYYY");
+      const resDate = moment(Date.now()).format("DD-MM-YYYY");
+      const token = await getUserPushToken(userId);
+      // notification message
+      const data = {
+        to: token.token,
+        title: "Transaction Status",
+        body: "Your Transaction has been cancelled. View the transaction to see the update.",
+        sound: "default",
+        data: { someData: "goes here" },
+      };
+      await sendPushNotification(data);
+      // email message
+      const emailMsg = {
+        to: user?.email,
+        subject: "Transaction Cancelled",
+        message: `
+          <h4>Hello ${user?.username}</h4><br>
+          <div>
+          Your Transaction to send BHD ${transaction.amountInBD} to ${transaction?.receiverName} with phone number ${transaction?.receiverNumber}
+          on the ${txnDate} has been cancelled. Please log in to the Easy Kings Pay Application to confirm this email.
+          </div><br>
+          <div>
+          This transaction was cancelled on ${resDate}.
+          </div><br>
+          <div>
+          If you have any issue with this email, please get to us through our support lines..
+          </div><br><br>
+          <div>Kind Regards</div>
+        `,
+      };
+      await sendEmail(emailMsg);
+    });
+    return { message: "Status Updated" };
+  } else {
+    return { message: "Update Failed" };
+  }
+}

@@ -46,6 +46,16 @@
     padding: 5px 10px;
 }
 
+.cancel-action button {
+    border: none;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+}
+
 #myTable {
     border-collapse: collapse;
     /* Collapse borders */

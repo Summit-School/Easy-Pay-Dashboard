@@ -139,17 +139,24 @@ const Transactions = () => {
                   </span> */}
                   </td>
                   <td className="status">
-                    {txn.status === true ? (
-                      <span
-                        style={{
-                          backgroundColor: "green",
-                          color: "white",
-                        }}
-                      >
-                        completed
-                      </span>
+                    {txn.cancelStatus === "" ||
+                    txn.cancelStatus === undefined ? (
+                      txn.status === true ? (
+                        <span
+                          style={{
+                            backgroundColor: "green",
+                            color: "white",
+                          }}
+                        >
+                          completed
+                        </span>
+                      ) : (
+                        <span style={{ backgroundColor: "yellow" }}>
+                          pending
+                        </span>
+                      )
                     ) : (
-                      <span style={{ backgroundColor: "yellow" }}>pending</span>
+                      <span style={{ backgroundColor: "red" }}>cancelled</span>
                     )}
                   </td>
                   <td className="timestamp">
@@ -161,6 +168,12 @@ const Transactions = () => {
                     <button onClick={() => changeStatus(txn.id)}>
                       {/* {loading ? "Loading..." : "Done"} */}
                       Done
+                    </button>
+                  </td>
+                  <td className="cancel-action">
+                    <button onClick={() => changeStatus(txn.id)}>
+                      {/* {loading ? "Loading..." : "Done"} */}
+                      Cancel
                     </button>
                   </td>
                 </tr>
