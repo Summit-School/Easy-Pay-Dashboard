@@ -25,7 +25,7 @@ export async function updateTransaction(id) {
   const txnDoc = doc(firestore, "transactions", id);
   if (txnDoc) {
     await updateDoc(txnDoc, {
-      status: true,
+      status: "completed",
     });
     await getTransactionById(id, async (transaction) => {
       const userId = transaction.userId;
@@ -81,7 +81,7 @@ export async function cancelTransaction(id) {
   const txnDoc = doc(firestore, "transactions", id);
   if (txnDoc) {
     await updateDoc(txnDoc, {
-      cancelStatus: "cancelled",
+      status: "cancelled",
     });
     await getTransactionById(id, async (transaction) => {
       const userId = transaction.userId;

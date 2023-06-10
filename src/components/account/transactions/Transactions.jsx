@@ -139,24 +139,25 @@ const Transactions = () => {
                   </span> */}
                   </td>
                   <td className="status">
-                    {txn.cancelStatus === "" ||
-                    txn.cancelStatus === undefined ? (
-                      txn.status === true ? (
-                        <span
-                          style={{
-                            backgroundColor: "green",
-                            color: "white",
-                          }}
-                        >
-                          completed
-                        </span>
-                      ) : (
-                        <span style={{ backgroundColor: "yellow" }}>
-                          pending
-                        </span>
-                      )
+                    {txn.status === "pending" ? (
+                      <span
+                        style={{
+                          backgroundColor: "yellow",
+                          color: "black",
+                        }}
+                      >
+                        pending
+                      </span>
+                    ) : txn.status === "completed" ? (
+                      <span
+                        style={{ backgroundColor: "green", color: "white" }}
+                      >
+                        completed
+                      </span>
                     ) : (
-                      <span style={{ backgroundColor: "red" }}>cancelled</span>
+                      <span style={{ backgroundColor: "red", color: "white" }}>
+                        cancelled
+                      </span>
                     )}
                   </td>
                   <td className="timestamp">
