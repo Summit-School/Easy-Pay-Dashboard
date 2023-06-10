@@ -14,6 +14,7 @@ import {
   getTransactions,
   updateTransaction,
   getImagesFromFirestore,
+  cancelTransaction,
 } from "../../../api/transactions";
 
 const Transactions = () => {
@@ -66,6 +67,20 @@ const Transactions = () => {
     // if (res.meta.requestStatus === "rejected") {
     //   toast.error(res.payload);
     // }
+  };
+
+  const cancelTxn = async (txnID) => {
+    cancelTransaction(txnID)
+      .then((res) => {
+        if (res.message === "Status Updated") {
+          toast.success(res.message);
+        } else {
+          toast.error(res.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   function myFunction(textInput) {
@@ -172,7 +187,7 @@ const Transactions = () => {
                     </button>
                   </td>
                   <td className="cancel-action">
-                    <button onClick={() => changeStatus(txn.id)}>
+                    <button onClick={() => cancelTxn(txn.id)}>
                       {/* {loading ? "Loading..." : "Done"} */}
                       Cancel
                     </button>
