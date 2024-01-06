@@ -1,24 +1,26 @@
 .card {
-    width: 23.9%;
-    margin: 5px;
-    min-height: 120px;
+  /* width: 23.9%; */
+  width: 32%;
+  margin: 5px;
+  min-height: 120px;
 }
 
-.card-icon, .card-title-header {
-    margin-top: 10px;
-    color: white;
-    font-weight: bold;
+.card-icon,
+.card-title-header {
+  margin-top: 10px;
+  color: white;
+  font-weight: bold;
 }
 
 .card-value {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: white;
 }
 
 @media only screen and (max-width: 600px) {
-    .card {
-        width: 96%;
-    }
+  .card {
+    width: 96%;
+  }
 }

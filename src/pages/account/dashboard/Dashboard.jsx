@@ -152,12 +152,12 @@ const Dashboard = () => {
               value={formatMoney(pendingTransactions)}
               bgColor="orange"
             />
-            <DashboardCards
+            {/* <DashboardCards
               icon={<BiMoney size={35} />}
               title="TOTAL INCOME"
               value={formatMoney(totalIncome)}
               bgColor="gray"
-            />
+            /> */}
           </div>
           <div className="conversion-rate container">
             <div className="rate-wrapper">
