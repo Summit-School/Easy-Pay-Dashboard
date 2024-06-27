@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/auth/login/Login";
@@ -12,6 +13,8 @@ import Protected from "./components/protected/Protected";
 // bringing in the toastify for it to work everywhere
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import initializeOneSignal from './oneSignal';
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
@@ -32,6 +35,10 @@ if ("serviceWorker" in navigator) {
 }
 
 function App() {
+  useEffect(() => {
+    initializeOneSignal();
+  }, []);
+
   return (
     <div className="App">
       <Router>
