@@ -6,7 +6,8 @@ import {
   getTransactionById,
   getSingleUser,
 } from "./auth.user";
-import { sendPushNotification } from "./pushNotificaton";
+// import { sendPushNotification } from "./pushNotificaton";
+import { sendPushNotification } from "./oneSignal";
 import { sendEmail } from "./sendEmail";
 import * as moment from "moment";
 
@@ -34,12 +35,17 @@ export async function updateTransaction(id) {
       const resDate = moment(Date.now()).format("DD-MM-YYYY");
       const token = await getUserPushToken(userId);
       // notification message
+      // const data = {
+      //   to: token.token,
+      //   title: "Transaction Status",
+      //   body: "Your Transaction has been compeleted. View the transaction to see the update.",
+      //   sound: "default",
+      //   data: { someData: "goes here" },
+      // };
       const data = {
         to: token.token,
         title: "Transaction Status",
         body: "Your Transaction has been compeleted. View the transaction to see the update.",
-        sound: "default",
-        data: { someData: "goes here" },
       };
       await sendPushNotification(data);
       // email message
@@ -90,12 +96,16 @@ export async function cancelTransaction(id) {
       const resDate = moment(Date.now()).format("DD-MM-YYYY");
       const token = await getUserPushToken(userId);
       // notification message
+      // const data = {
+      //   to: token.token,
+      //   title: "Transaction Status",
+      //   body: "Your Transaction has been cancelled. View the transaction to see the update.",
+      //   sound: "default",
+      //   data: { someData: "goes here" },
+      // };
       const data = {
-        to: token.token,
         title: "Transaction Status",
         body: "Your Transaction has been cancelled. View the transaction to see the update.",
-        sound: "default",
-        data: { someData: "goes here" },
       };
       await sendPushNotification(data);
       // email message

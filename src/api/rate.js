@@ -7,7 +7,8 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { firestore } from "./firebase";
-import { getAllPushTokens, sendPushNotification } from "./pushNotificaton";
+// import { getAllPushTokens, sendPushNotification } from "./pushNotificaton";
+import { sendPushNotification } from "./oneSignal";
 
 export async function changeRate(amount) {
   const result = await getDocs(collection(firestore, "rate"));
@@ -15,18 +16,23 @@ export async function changeRate(amount) {
   if (rateArray.length > 0) {
     const rateDoc = doc(firestore, "rate", rateArray[0].id);
     await updateDoc(rateDoc, { rate: amount.rate });
-    getAllPushTokens().then((tokens) => {
-      tokens.forEach(async (token) => {
-        const data = {
-          to: token.token,
-          title: "Exchange Rate Updated",
-          body: "Easy Kings Pay has updated its exchange rate. Click to view the new rate",
-          sound: "default",
-          data: { someData: "goes here" },
-        };
-        await sendPushNotification(data);
-      });
-    });
+    // getAllPushTokens().then((tokens) => {
+    //   tokens.forEach(async (token) => {
+    //     const data = {
+    //       to: token.token,
+    //       title: "Exchange Rate Updated",
+    //       body: "Easy Kings Pay has updated its exchange rate. Click to view the new rate",
+    //       sound: "default",
+    //       data: { someData: "goes here" },
+    //     };
+    //     await sendPushNotification(data);
+    //   });
+    // });
+    const data = {
+      title: "Exchange Rate Updated",
+      body: "Easy Kings Pay has updated its exchange rate. Click to view the new rate",
+    };
+    sendPushNotification(data);
     return { message: "Rate Updated" };
   }
   const rateRef = collection(firestore, "rate");

@@ -1,23 +1,38 @@
-import config from "../project.config"
+import axios from "axios";
 
-export async function sendPushNotification(data) {
-    const body = {
-        app_id: config.oneSignalAppID,
-        included_segments: ['Subscribed Users'],
-        data: {
-            foo: 'bar',
-        },
+
+
+const oneSignalRestApiKey = process.env.REACT_APP_ONESIGNAL_APIKEY
+
+
+
+export const sendPushNotification = (_data) => {
+    const data = {
+        app_id: process.env.REACT_APP_ONESIGNAL_APPID,
+        included_segments: ["Total Subscriptions"],
         contents: {
-            en: 'Sample Push Message',
+            en: _data.body
         },
+        headings: {
+            en: _data.title
+        },
+        large_icon: "https://lh3.googleusercontent.com/9mnpqsUwcKYqK3nhF1RszuJYbGdCqv18fGKcV7HTtxpUCAsco8WHyaw1r0DgvHAScEg=w800-h800-p",
     };
 
-    await fetch("https://onesignal.com/api/v1/notifications", {
-        method: "POST",
-        'headers': {
+    const config = {
+        headers: {
+            'Authorization': `Basic ${oneSignalRestApiKey}`,
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${config.oneSignalAPIKEY}`,
-        },
-        body: body ? JSON.stringify(body) : null
-    });
+            'Accept': 'application/json'
+        }
+    };
+
+    axios.post('https://onesignal.com/api/v1/notifications', data, config)
+        .then(response => {
+            console.log('Notification sent successfully:', response.data);
+        })
+        .catch(error => {
+            console.error('Error sending notification:', error);
+        });
+
 }

@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { loginAdmin, registerAdmin } from "../../../api/auth.admin";
 import * as uuid from "uuid";
 
+import { sendPushNotification } from "../../../api/oneSignal";
+
 const Login = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -63,6 +65,8 @@ const Login = () => {
       return;
     }
   };
+
+  // sendPushNotification();
 
   return (
     <div className="login-wrapper">
