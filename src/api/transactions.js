@@ -104,6 +104,7 @@ export async function cancelTransaction(id) {
       //   data: { someData: "goes here" },
       // };
       const data = {
+        to: token.token,
         title: "Transaction Status",
         body: "Your Transaction has been cancelled. View the transaction to see the update.",
       };

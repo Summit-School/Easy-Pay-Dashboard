@@ -1,6 +1,7 @@
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import * as uuid from "uuid";
 // import { getUserPushToken, sendPushNotification } from "./pushNotificaton";
+import { getUserPushToken } from "./pushNotificaton";
 import { sendPushNotification } from "./oneSignal";
 
 import { firestore } from "./firebase";
@@ -18,7 +19,7 @@ export async function sendMessage(receiverId, message) {
   const ref = doc(firestore, `support/${receiverId}/messages/${id}`);
 
   setDoc(ref, { ...message, id: id });
-  // const token = await getUserPushToken(receiverId);
+  const token = await getUserPushToken(receiverId);
   // const data = {
   //   to: token.token,
   //   title: "New Message",
@@ -27,6 +28,7 @@ export async function sendMessage(receiverId, message) {
   //   data: { someData: "goes here" },
   // };
   const data = {
+    to: token.token,
     title: "New Message",
     body: "You have unread messages.",
   };
