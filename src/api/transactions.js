@@ -44,8 +44,14 @@ export async function updateTransaction(id) {
       // };
       const data = {
         to: token.token,
-        title: "Transaction Status",
-        body: "Your Transaction has been compeleted. View the transaction to see the update.",
+        title: "Transaction Compeleted",
+        body: `
+        Hello ${user?.username}, Your Transaction to send BHD ${transaction.amountInBD} 
+        to ${transaction?.receiverName} with phone number ${transaction?.receiverNumber}
+        on the ${txnDate} has been completed. Please log in to the Easy Kings Pay 
+        Application to confirm this message. This transaction was completed successfully on ${resDate}.
+        We thank you for trusting our services and hope to see you again in the future.
+        `,
       };
       await sendPushNotification(data);
       // email message
@@ -105,8 +111,11 @@ export async function cancelTransaction(id) {
       // };
       const data = {
         to: token.token,
-        title: "Transaction Status",
-        body: "Your Transaction has been cancelled. View the transaction to see the update.",
+        title: "Transaction Cancelled",
+        body: `Hello ${user?.username}, Your Transaction to send BHD ${transaction.amountInBD} to 
+        ${transaction?.receiverName} with phone number ${transaction?.receiverNumber}
+        on the ${txnDate} has been cancelled. Please log in to the Easy Kings Pay Application to confirm this message.
+         This transaction was cancelled on ${resDate}. If you have any issue with this message, please get to us through our support lines.`,
       };
       await sendPushNotification(data);
       // email message
@@ -123,7 +132,7 @@ export async function cancelTransaction(id) {
           This transaction was cancelled on ${resDate}.
           </div><br>
           <div>
-          If you have any issue with this email, please get to us through our support lines..
+          If you have any issue with this email, please get to us through our support lines.
           </div><br><br>
           <div>Kind Regards</div>
         `,

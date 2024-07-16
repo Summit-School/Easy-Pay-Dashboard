@@ -59,7 +59,9 @@ export async function updateInstructions(data) {
     // });
     const data = {
       title: "Instructions updated",
-      body: "Easy Kings Pay has updated its instructions, click to view the updates.",
+      body: `Easy Kings Pay has updated its instructions. 
+      This updates are crucial for users to follow. It reads 
+      ${data.message}`,
     };
     sendPushNotification(data);
     return { message: "Instructions Updated" };

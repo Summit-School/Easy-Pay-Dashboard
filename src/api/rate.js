@@ -30,7 +30,11 @@ export async function changeRate(amount) {
     // });
     const data = {
       title: "Exchange Rate Updated",
-      body: "Easy Kings Pay has updated its exchange rate. Click to view the new rate",
+      body: `
+      Hello there, We are pleased to inform you that Easy Kings Pay has revised its exchange rate. 
+      The new rate is ${amount.rate}. This new rate will be applied to all subsequent transactions carried
+      out on our platform. Thank you for your continued trust in our services.
+      `,
     };
     sendPushNotification(data);
     return { message: "Rate Updated" };

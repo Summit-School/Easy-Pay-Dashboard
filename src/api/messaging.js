@@ -29,8 +29,8 @@ export async function sendMessage(receiverId, message) {
   // };
   const data = {
     to: token.token,
-    title: "New Message",
-    body: "You have unread messages.",
+    title: "You have a new message",
+    body: `${message?.text}`,
   };
   const res = await sendPushNotification(data);
   return res;
