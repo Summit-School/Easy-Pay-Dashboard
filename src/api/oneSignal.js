@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const oneSignalRestApiKey = process.env.REACT_APP_ONESIGNAL_APIKEY
-// const oneSignalRestApiKey = "BILLING-TIME"
+// const oneSignalRestApiKey = process.env.REACT_APP_ONESIGNAL_APIKEY
+const oneSignalRestApiKey = "BILLING-TIME"
 
 export const sendPushNotification = (_data) => {
     let data = {
-        app_id: process.env.REACT_APP_ONESIGNAL_APPID,
+        // app_id: process.env.REACT_APP_ONESIGNAL_APPID,
+        app_id: "BILLING-TIME",
         contents: {
             en: _data.body
         },
